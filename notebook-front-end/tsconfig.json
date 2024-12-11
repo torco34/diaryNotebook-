@@ -1,0 +1,39 @@
+{
+  "compilerOptions": {
+    "target": "ES2017",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
+    "incremental": true,
+    "baseUrl": ".", // Base para rutas relativas
+    "paths": {
+      "@share/*": ["src/share/*"], // Alias para carpetas compartidas
+      "@components/*": ["src/components/*"], // Alias para componentes generales
+      "@utils/*": ["src/utils/*"], // Alias para utilidades (opcional)
+      "@/*": ["./*"] // Mantener alias global para todo el proyecto
+    },
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    "next.config.js",
+    "tailwind.config.js",
+    "app/components/profile/cardMenuProfile/CardTadetsx"
+  ],
+  "exclude": ["node_modules"]
+}

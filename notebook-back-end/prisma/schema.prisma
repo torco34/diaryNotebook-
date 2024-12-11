@@ -1,0 +1,46 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Product {
+  id          String   @id @map("_id") @db.ObjectId @default(auto()) // Usar ObjectId con @db.ObjectId
+  name        String @unique
+  price       Int
+  description String
+  image       String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+model User {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+model Item {
+ id          String   @id @map("_id") @db.ObjectId @default(auto()) 
+  name        String
+  price       Int
+  day         String
+  date        DateTime
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model ReminderDate {
+  id          String   @id @map("_id") @db.ObjectId @default(auto()) 
+  title       String   // Título de la cita médica (ej. "Consulta con el doctor")
+  description String   // Descripción adicional (ej. "Revisión general")
+  date        DateTime // Fecha y hora de la cita médica
+  notifyBefore Int?    // Notificación en minutos antes de la cita
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
