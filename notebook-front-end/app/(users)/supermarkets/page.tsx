@@ -1,7 +1,22 @@
-export default function Mercado() {
+// page.tsx
+"use client";
+import dynamic from "next/dynamic";
+
+// Importar el componente LeafletMap sin SSR
+const MapWithNoSSR = dynamic(
+  () => import("../../components/superMarke/LeafletMap"),
+  {
+    ssr: false,
+  }
+);
+
+export default function SupermarketsPage() {
   return (
-    <main className="grid min-h-screen  justify-items-center   bg-gradient-to-r from-blue-100 to-purple-700 text-white ">
-      <h1>en este mapa encontraras todo los super que tiene promoción</h1>
-    </main>
+    <div>
+      <h1>Supermercados en la ciudad</h1>
+      <div style={{ height: "90vh", width: "100%" }}>
+        <MapWithNoSSR />
+      </div>
+    </div>
   );
 }

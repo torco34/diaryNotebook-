@@ -10,7 +10,7 @@ const HomeTodo = () => {
     throw new Error("Error al conectar con el cliente");
   };
   return (
-    <div className="w-full h-screen bg-gradient-to-r from-blue-900 via-amber-100 to-indigo-600 text-white flex items-center justify-center">
+    <div className="w-full h-screen bg-blue-950  text-white flex items-center justify-center">
       <div className="w-[90%] max-w-5xl grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
         {/* Texto descriptivo */}
         <div className="bg-slate-100 p-8 rounded-lg shadow-lg  flex flex-col items-center">
@@ -20,7 +20,7 @@ const HomeTodo = () => {
             fechas de pago y recordatorios importantes.
           </h2>
           <div className="flex w-full max-w-sm mt-8 gap-4">
-            <button className="w-1/2 bg-yellow-500 text-gray-800 px-4 py-2 rounded-md font-semibold hover:bg-yellow-400 transition">
+            <button className="w-1/2 bg-yellow-600 text-gray-800 px-4 py-2 rounded-md font-semibold hover:bg-yellow-400 transition">
               Registrarse
             </button>
             <button className="w-1/2 bg-gray-600 text-white px-4 py-2 rounded-md font-semibold hover:bg-gray-700 transition">
