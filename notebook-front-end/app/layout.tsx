@@ -1,9 +1,10 @@
 import Footer from "./components/layout/Footer";
 import Header from "./components/layout/Header";
+import { AuthProvider } from "./context/AuthContext";
 
 import "./globals.css";
 interface MenuProps {
-  children: React.ReactNode; // Define el tipo de children
+  children: React.ReactNode;
 }
 export const metadata = {
   title: "Next.js",
@@ -14,9 +15,11 @@ export default function RootLayout({ children }: MenuProps) {
   return (
     <html lang="en">
       <body>
-        <Header />
-        {children}
-        <Footer />
+        <AuthProvider>
+          <Header />
+          {children}
+          <Footer />
+        </AuthProvider>
       </body>
     </html>
   );

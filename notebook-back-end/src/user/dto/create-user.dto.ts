@@ -1,5 +1,12 @@
-import { User } from '@prisma/client';
-import { IsEmail, IsNotEmpty, IsString, MinLength } from 'class-validator';
+import {
+  IsEmail,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  MinLength,
+} from 'class-validator';
+
+import { User } from '../entities/user.entity';
 
 export type CreateUserInput = Omit<User, 'id' | 'createdAt' | 'updatedAt'>;
 
@@ -16,4 +23,7 @@ export class CreateUserDto {
   @MinLength(6)
   @IsNotEmpty()
   password: string;
+
+  @IsOptional()
+  city?: string;
 }

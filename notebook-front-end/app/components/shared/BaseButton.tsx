@@ -8,11 +8,11 @@ export const BaseButton = ({
   className = "",
 }: BaseButtonProps) => {
   // Variantes de TailwindCSS
-  const baseStyle = "px-4 py-2 rounded text-white font-bold transition-colors";
+  const baseStyle = "px-4 py-2 rounded font-bold transition-colors";
   const variants: Record<string, string> = {
-    primary: "bg-blue-500 hover:bg-blue-600",
-    secondary: "bg-gray-500 hover:bg-blue-950",
-    danger: "bg-red-500 hover:bg-red-600",
+    primary: "bg-orange-500 hover:bg-orange-400",
+    secondary: "bg-blue-900 hover:bg-blue-950",
+    danger: "bg-gray-100 hover:bg-gray-100",
   };
 
   // Combina los estilos base con la variante específica

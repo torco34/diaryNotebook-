@@ -1,29 +1,47 @@
 "use client";
-import { ErrorMessage, Field, Form, Formik } from "formik";
+import { Form, Formik } from "formik";
 import { useRouter } from "next/navigation";
-
 import { useState } from "react";
-interface IFormInput {
-  name: string;
-  email: string;
-  password: string;
-  city?: string; // Solo en registro, es opcional
-}
-
-const cities = ["Madrid", "Barcelona", "Sevilla", "Valencia", "Bilbao"]; // Lista de ciudades
+import { useAuth } from "../../context/AuthContext"; // Ajusta la ruta a tu contexto
+import { BaseButton } from "../shared/BaseButton";
+import { BaseFormSelect } from "../shared/BaseFormSelect";
+import { BaseFormText } from "../shared/BaseFormText";
+import { IFormAuth } from "./ts/FormType";
+const CITIES = [
+  "Bogotá",
+  "Medellín",
+  "Cali",
+  "Barranquilla",
+  "Cartagena",
+  "Bucaramanga",
+  "Cúcuta",
+  "Pereira",
+  "Santa Marta",
+  "Manizales",
+  "Ibagué",
+  "Soledad",
+  "Neiva",
+  "Villavicencio",
+  "Armenia",
+];
 
 const FormAuth = () => {
-  const [isLogin, setIsLogin] = useState(true); // Estado para controlar el cambio entre Login y Registro
+  const { login, register } = useAuth();
+  const [isLogin, setIsLogin] = useState(true);
   const router = useRouter();
-  const initialValues: IFormInput = {
+
+  const handleForgotPassword = () => {
+    router.push("/viewProfile");
+  };
+  const initialValues: IFormAuth = {
     name: "",
     email: "",
     password: "",
-    city: "", // Solo en registro, será opcional
+    city: "",
   };
 
-  const validate = (values: IFormInput) => {
-    const errors: Partial<IFormInput> = {};
+  const validate = (values: IFormAuth) => {
+    const errors: Partial<IFormAuth> = {};
 
     if (!values.email) {
       errors.email = "El correo es obligatorio";
@@ -48,15 +66,28 @@ const FormAuth = () => {
     return errors;
   };
 
-  const onSubmit = (values: IFormInput) => {
-    console.log("Datos enviados:", values);
-    router.push("/viewProfile");
+  const onSubmit = async (values: IFormAuth) => {
+    console.log(values, "Formulario enviado");
+    try {
+      if (isLogin) {
+        await login(values.email, values.password);
+        router.push("/viewProfile");
+      } else {
+        await register(values.name, values.email, values.password, values.city);
+        router.push("/viewProfile");
+      }
+    } catch (error) {
+      console.error("Error de autenticación:", error);
+      alert(
+        "Hubo un error en la autenticación. Por favor, inténtalo de nuevo."
+      );
+    }
   };
 
   return (
-    <div className=" rounded md:container md:mx-auto  flex items-center justify-center ">
-      <div className="w-full max-w-xl bg-stone-100 p-8 rounded-lg shadow-xl">
-        <h1 className="text-3xl font-semibold text-center text-foreground mb-6">
+    <div className="rounded md:container md:mx-auto flex items-center justify-center">
+      <div className="w-full max-w-xl bg-stone-100  p-8 rounded-lg shadow-xl">
+        <h1 className="text-3xl font-semibold text-orange-500 text-center text-foreground mb-6">
           {isLogin ? "Inicio de Sesión" : "Registro"}
         </h1>
 
@@ -67,121 +98,63 @@ const FormAuth = () => {
         >
           {() => (
             <Form>
-              {/* Campo de nombre solo en Registro */}
               {!isLogin && (
-                <div className="mb-4">
-                  <label
-                    htmlFor="name"
-                    className="block text-lg text-foreground mb-2"
-                  >
-                    Nombre:
-                  </label>
-                  <Field
-                    type="text"
-                    id="name"
-                    name="name"
-                    className="w-full px-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary"
-                  />
-                  <ErrorMessage
-                    name="name"
-                    component="div"
-                    className="text-red-500 text-sm mt-1"
-                  />
-                </div>
+                <BaseFormText
+                  name="name"
+                  label="Nombre:"
+                  placeholder="Ingresa tu nombre"
+                />
               )}
 
-              <div className="mb-4">
-                <label
-                  htmlFor="email"
-                  className="block text-lg text-foreground mb-2"
-                >
-                  Correo Electrónico:
-                </label>
-                <Field
-                  type="email"
-                  id="email"
-                  name="email"
-                  className="w-full px-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary"
-                />
-                <ErrorMessage
-                  name="email"
-                  component="div"
-                  className="text-red-500 text-sm mt-1"
-                />
-              </div>
+              <BaseFormText
+                name="email"
+                label="Correo Electrónico:"
+                type="email"
+                placeholder="Ingresa tu correo"
+              />
 
-              {/* Campo de contraseña */}
-              <div className="mb-4">
-                <label
-                  htmlFor="password"
-                  className="block text-lg text-foreground mb-2"
-                >
-                  Contraseña:
-                </label>
-                <Field
-                  type="password"
-                  id="password"
-                  name="password"
-                  className="w-full px-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary"
-                />
-                <ErrorMessage
-                  name="password"
-                  component="div"
-                  className="text-red-500 text-sm mt-1"
-                />
-              </div>
+              <BaseFormText
+                name="password"
+                label="Contraseña:"
+                type="password"
+                placeholder="Ingresa tu contraseña"
+              />
 
-              {/* Campo de ciudad solo en Registro */}
               {!isLogin && (
-                <div className="mb-4">
-                  <label
-                    htmlFor="city"
-                    className="block text-lg text-foreground mb-2"
-                  >
-                    Ciudad:
-                  </label>
-                  <Field
-                    as="select"
-                    id="city"
-                    name="city"
-                    className="w-full text-gray-700 px-4 py-5 mb-10 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary"
-                  >
-                    <option value="">Selecciona tu ciudad</option>
-                    {cities.map((city, index) => (
-                      <option key={index} value={city}>
-                        {city}
-                      </option>
-                    ))}
-                  </Field>
-                  <ErrorMessage
-                    name="city"
-                    component="div"
-                    className="text-red-500 text-sm mt-1"
-                  />
-                </div>
+                <BaseFormSelect
+                  name="city"
+                  label="Ciudad:"
+                  options={CITIES}
+                  placeholder="Selecciona tu ciudad"
+                />
               )}
 
-              <button
+              <BaseButton
+                label={isLogin ? "Iniciar Sesión" : "Registrarse"}
+                variant="primary"
                 type="submit"
-                className="w-full py-3 my-5 mb-10 bg-amber-400 text-gray-600 font-semibold rounded-md hover:bg-primary/80 transition duration-200"
-              >
-                {isLogin ? "Iniciar Sesión" : "Registrarse"}
-              </button>
+                className="w-full py-3 text-gray-100 my-5 mb-10"
+              />
 
-              {/* Enlace para alternar entre login y registro */}
-              <div className="flex  justify-between text-center mt-4">
-                <button
-                  type="button"
+              <div className="flex justify-between text-center mt-4">
+                <BaseButton
+                  label={
+                    isLogin
+                      ? "¿No tienes cuenta? Regístrate"
+                      : "¿Ya tienes cuenta? Inicia sesión"
+                  }
+                  variant="secondary"
                   onClick={() => setIsLogin(!isLogin)}
-                  className="text-gray-700 underline"
-                >
-                  {isLogin
-                    ? "¿No tienes cuenta? Regístrate"
-                    : "¿Ya tienes cuenta? Inicia sesión"}
-                </button>
-                <button type="button" className="text-gray-700 underline">
-                  {isLogin ? " ¿Olvido su contraseña ?" : null}
-                </button>
+                  className=" text-gray-100 "
+                />
+                {isLogin && (
+                  <BaseButton
+                    label="¿Olvidaste tu contraseña?"
+                    variant="danger"
+                    onClick={handleForgotPassword}
+                    className="text-orange-500 hover:text-orange-300 "
+                  />
+                )}
               </div>
             </Form>
           )}
@@ -190,5 +163,10 @@ const FormAuth = () => {
     </div>
   );
 };
+
+
+
+
+
 
 export default FormAuth;

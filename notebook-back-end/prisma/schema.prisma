@@ -8,7 +8,7 @@ datasource db {
 }
 
 model Product {
-  id          String   @id @map("_id") @db.ObjectId @default(auto()) // Usar ObjectId con @db.ObjectId
+  id          String   @id @map("_id") @db.ObjectId @default(auto()) 
   name        String @unique
   price       Int
   description String
@@ -21,9 +21,11 @@ model User {
   name      String
   email     String   @unique
   password  String
+  city      String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
 model Item {
  id          String   @id @map("_id") @db.ObjectId @default(auto()) 
   name        String
@@ -36,11 +38,13 @@ model Item {
 
 model ReminderDate {
   id          String   @id @map("_id") @db.ObjectId @default(auto()) 
-  title       String   // Título de la cita médica (ej. "Consulta con el doctor")
-  description String   // Descripción adicional (ej. "Revisión general")
-  date        DateTime // Fecha y hora de la cita médica
+  title       String  
+  description String   
+  date        DateTime 
+  
   notifyBefore Int?    // Notificación en minutos antes de la cita
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-}
+
+ }
 
