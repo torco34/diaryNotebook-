@@ -4,6 +4,7 @@ import Link from "next/link";
 import { AllHookNav } from "./components/hooks/AllHookNav";
 import { MenuAvatar } from "./components/MenuAvatar";
 import { MenuUser } from "./components/MenuHeader";
+import { MenuLogo } from "./components/MenuLogo";
 const Header = () => {
   const { isAuthenticated, isMenuOpen, logout, toggleMenu, login } =
     AllHookNav();
@@ -11,11 +12,8 @@ const Header = () => {
   return (
     <header className="nav bg-slate-100 shadow-lg">
       <div className="container mx-auto flex items-center justify-between p-4">
-        {/* Logo */}
-        <Link href="/">
-          <h1 className="text-3xl font-bold flex-shrink-0">Book Daily</h1>
-        </Link>
-
+        <MenuLogo />
+        {/* boton de resposive */}
         <button
           onClick={toggleMenu}
           className="block md:hidden p-2 border rounded-lg hover:bg-gray-200"
@@ -44,14 +42,16 @@ const Header = () => {
         >
           {!isAuthenticated && (
             <div className="flex items-center space-x-4">
-              <span>¿No tienes cuenta?</span>
+              <span className="text-lg top-10 font-bold text-blue-950">
+                ¿No tienes cuenta?
+              </span>
               <Link
                 href="/viewAuth"
                 className="hover:text-gray-600 font-bold text-sm"
               >
                 <button
                   onClick={login}
-                  className="bg-yellow-600 font-semibold text-black px-4 py-2 rounded-lg hover:bg-yellow-300 transition"
+                  className="bg-orange-600 font-semibold text-slate-100 px-4 py-2 rounded-lg hover:bg-yellow-300 transition"
                 >
                   Iniciar sesión
                 </button>
@@ -59,11 +59,8 @@ const Header = () => {
             </div>
           )}
           {isAuthenticated && (
-            <div className="flex items-center space-x-4">
+            <div className="flex  items-center space-x-5">
               <MenuUser />
-              <span>
-                <strong>Diana Zuares</strong>
-              </span>
               <MenuAvatar onClick={logout} />
             </div>
           )}

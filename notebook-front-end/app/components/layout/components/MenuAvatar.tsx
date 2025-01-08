@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-
+import { useAuth } from "../../../context/AuthContext";
 import BaseImg from "../../shared/BaseImg";
 import { MenuProfile } from "./MenuProfile";
 
@@ -11,7 +11,8 @@ interface CustomMenu {
 export const MenuAvatar = ({ onClick }: CustomMenu) => {
   const [isMenuVisible, setIsMenuVisible] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
-
+  const { user } = useAuth();
+  console.log(user);
   const toggleMenu = () => {
     setIsMenuVisible((prev) => !prev);
   };
@@ -32,7 +33,13 @@ export const MenuAvatar = ({ onClick }: CustomMenu) => {
 
   return (
     <div ref={menuRef} className="relative inline-block">
-      <div className="rounded-full">
+      <div className="  flex items-center">
+        <span className="text-lg top-10 px-7 py-4 font-bold text-blue-950">
+          <span className="text-lg top-10 px-7 py-4 font-bold text-blue-950">
+            <strong>{user || "Usuario"}</strong>{" "}
+            {/* Si no hay nombre, muestra "Usuario" */}
+          </span>
+        </span>
         <BaseImg
           src="https://randomuser.me/api/portraits/women/42.jpg"
           alt="Agenda"

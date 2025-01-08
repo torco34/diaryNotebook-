@@ -1,33 +1,26 @@
 import Link from "next/link";
+
+import headerData from "../../../json/headerData.json"; // Ajusta la ruta según tu estructura
+
 interface CustomMenu {
   onClick?: () => void;
 }
+
 export const MenuProfile = ({ onClick }: CustomMenu) => {
   return (
-    <>
-      <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-300 rounded-md shadow-lg">
-        <div className="grid">
+    <div className="absolute right-0 mt-2 w-48 bg-slate-100 border border-gray-300 rounded-md shadow-lg">
+      <div className="grid">
+        {headerData.menuProfile.map((item, index) => (
           <Link
-            href="/viewProfile"
-            className="px-4 py-2 text-gray-700 hover:bg-gray-100 cursor-pointer"
+            key={index}
+            href={item.href}
+            onClick={item.onClick ? onClick : undefined}
+            className={item.className}
           >
-            Perfil
+            {item.label}
           </Link>
-          <Link
-            href="/viewProfile"
-            className="px-4 py-2 text-gray-700 hover:bg-gray-100 cursor-pointer"
-          >
-            Ajustes
-          </Link>
-          <Link
-            href="/"
-            onClick={onClick}
-            className="px-4 py-2 text-gray-700 hover:bg-gray-100 cursor-pointer"
-          >
-            Cerrar sesión
-          </Link>
-        </div>
+        ))}
       </div>
-    </>
+    </div>
   );
 };

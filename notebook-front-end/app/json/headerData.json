@@ -1,0 +1,66 @@
+{
+  "menuProfile": [
+    {
+      "label": "Perfil",
+      "href": "/viewProfile",
+      "className": "px-4 py-2 text-gray-700 hover:bg-gray-100 cursor-pointer"
+    },
+    {
+      "label": "Ajustes",
+      "href": "/viewProfile",
+      "className": "px-4 py-2 text-gray-700 hover:bg-gray-100 cursor-pointer"
+    },
+    {
+      "label": "Cerrar sesión",
+      "href": "/",
+      "onClick": true,
+      "className": "px-4 py-2 text-gray-700 hover:bg-gray-100 cursor-pointer"
+    }
+  ],
+
+  "menuSettings": [
+    {
+      "label": "General",
+      "href": "/settings/general",
+      "className": "px-4 py-2 text-gray-700 hover:bg-gray-100 cursor-pointer"
+    },
+    {
+      "label": "Seguridad",
+      "href": "/settings/security",
+      "className": "px-4 py-2 text-gray-700 hover:bg-gray-100 cursor-pointer"
+    },
+    {
+      "label": "Notificaciones",
+      "href": "/settings/notifications",
+      "className": "px-4 py-2 text-gray-700 hover:bg-gray-100 cursor-pointer"
+    }
+  ],
+  "menuHeader": [
+    {
+      "label": "Supermercados",
+      "href": "/supermarkets",
+      "icon": "FaMapMarkerAlt",
+      "color": "#F29F58"
+    },
+    {
+      "label": "Compras pendientes",
+      "href": "/Shopping",
+      "icon": "FaLightbulb"
+    },
+    {
+      "label": "Recordatorios",
+      "href": "/specialDates",
+      "icon": "FaHourglassHalf"
+    },
+    {
+      "label": "Gastos Diarios",
+      "href": "/dailyExpenses",
+      "icon": "FaMoneyBillWave"
+    },
+    {
+      "label": "Notificación",
+      "href": "/dailyExpenses",
+      "icon": "FaBell"
+    }
+  ]
+}

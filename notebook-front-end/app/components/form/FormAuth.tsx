@@ -106,14 +106,13 @@ const FormAuth = () => {
         >
           {({ status }) => (
             <Form>
-              {/* Mensajes generales */}
               {status?.error && (
                 <div className="mb-4 p-3 rounded bg-red-100 text-red-600">
                   {status.error}
                 </div>
               )}
               {status?.success && (
-                <div className="mb-4 p-3 rounded bg-green-800 text-gray-100">
+                <div className="mb-4 p-3 rounded bg-green-700 text-gray-100">
                   {status.success}
                 </div>
               )}

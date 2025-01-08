@@ -11,7 +11,7 @@ interface ProfileCardProps {
   width: number;
   height: number;
   className?: string;
-  boton?: string; // Opcional, puede ser un botón de iniciar sesión, etc.
+  boton?: string;
   onClick?: () => void;
 }
 

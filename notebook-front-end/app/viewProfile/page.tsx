@@ -66,7 +66,7 @@ const ProfileUser = () => {
   ];
 
   return (
-    <div className="w-full h-screen  bg-blue-950 text-white flex items-cente p-5 justify-cente">
+    <div className="w-full h-screen  bg-blue-950 text-white flex  p-5 ">
       <main className="flex flex-col w-full">
         <div className="flex p-5 text-blue-950">
           <ProfileCard
