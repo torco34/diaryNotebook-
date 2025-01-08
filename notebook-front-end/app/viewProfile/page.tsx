@@ -33,14 +33,14 @@ const ProfileUser = () => {
       diaSemana: "Martes",
     },
     {
-      id: 2,
+      id: 3,
       title: "Reunión de Progreso",
       description: "Reunión para analizar los avances del proyecto.",
       time: "02:00 PM",
       diaSemana: "Martes",
     },
     {
-      id: 2,
+      id: 4,
       title: "Reunión de Progreso",
       description: "Reunión para analizar los avances del proyecto.",
       time: "02:00 PM",

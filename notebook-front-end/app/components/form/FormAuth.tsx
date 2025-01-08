@@ -2,11 +2,12 @@
 import { Form, Formik } from "formik";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { useAuth } from "../../context/AuthContext"; // Ajusta la ruta a tu contexto
+import { useAuth } from "../../context/AuthContext";
 import { BaseButton } from "../shared/BaseButton";
 import { BaseFormSelect } from "../shared/BaseFormSelect";
 import { BaseFormText } from "../shared/BaseFormText";
 import { IFormAuth } from "./ts/FormType";
+
 const CITIES = [
   "Bogotá",
   "Medellín",
@@ -33,6 +34,7 @@ const FormAuth = () => {
   const handleForgotPassword = () => {
     router.push("/viewProfile");
   };
+
   const initialValues: IFormAuth = {
     name: "",
     email: "",
@@ -66,28 +68,34 @@ const FormAuth = () => {
     return errors;
   };
 
-  const onSubmit = async (values: IFormAuth) => {
-    console.log(values, "Formulario enviado");
+  const onSubmit = async (
+    values: IFormAuth,
+    {
+      setStatus,
+    }: { setStatus: (status: { success?: string; error?: string }) => void }
+  ) => {
     try {
       if (isLogin) {
         await login(values.email, values.password);
-        router.push("/viewProfile");
+        setStatus({ success: "Inicio de sesión exitoso. Redirigiendo..." });
+        setTimeout(() => router.push("/viewProfile"), 1500);
       } else {
         await register(values.name, values.email, values.password, values.city);
-        router.push("/viewProfile");
+        setStatus({ success: "Registro exitoso. Redirigiendo..." });
+        setTimeout(() => router.push("/viewProfile"), 1500);
       }
     } catch (error) {
       console.error("Error de autenticación:", error);
-      alert(
-        "Hubo un error en la autenticación. Por favor, inténtalo de nuevo."
-      );
+      setStatus({
+        error: "Hubo un error en la autenticación. Inténtalo de nuevo.",
+      });
     }
   };
 
   return (
     <div className="rounded md:container md:mx-auto flex items-center justify-center">
-      <div className="w-full max-w-xl bg-stone-100  p-8 rounded-lg shadow-xl">
-        <h1 className="text-3xl font-semibold text-orange-500 text-center text-foreground mb-6">
+      <div className="w-full max-w-xl bg-gray-100 text-gray-800 p-8 rounded-lg shadow-xl">
+        <h1 className="text-3xl font-semibold text-orange-500 text-center mb-6">
           {isLogin ? "Inicio de Sesión" : "Registro"}
         </h1>
 
@@ -96,8 +104,20 @@ const FormAuth = () => {
           validate={validate}
           onSubmit={onSubmit}
         >
-          {() => (
+          {({ status }) => (
             <Form>
+              {/* Mensajes generales */}
+              {status?.error && (
+                <div className="mb-4 p-3 rounded bg-red-100 text-red-600">
+                  {status.error}
+                </div>
+              )}
+              {status?.success && (
+                <div className="mb-4 p-3 rounded bg-green-800 text-gray-100">
+                  {status.success}
+                </div>
+              )}
+
               {!isLogin && (
                 <BaseFormText
                   name="name"
@@ -145,14 +165,14 @@ const FormAuth = () => {
                   }
                   variant="secondary"
                   onClick={() => setIsLogin(!isLogin)}
-                  className=" text-gray-100 "
+                  className="text-gray-100"
                 />
                 {isLogin && (
                   <BaseButton
                     label="¿Olvidaste tu contraseña?"
                     variant="danger"
                     onClick={handleForgotPassword}
-                    className="text-orange-500 hover:text-orange-300 "
+                    className="text-orange-500 hover:text-orange-300"
                   />
                 )}
               </div>
@@ -163,10 +183,5 @@ const FormAuth = () => {
     </div>
   );
 };
-
-
-
-
-
 
 export default FormAuth;

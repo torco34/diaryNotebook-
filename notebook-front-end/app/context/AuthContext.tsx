@@ -10,16 +10,16 @@ import {
 import { loginUser, registerUser } from "../servicios/auth";
 
 interface AuthContextType {
-  user: string | null; // Estado del usuario autenticado
-  token: string | null; // Token del usuario autenticado
-  login: (email: string, password: string) => Promise<void>; // Función para iniciar sesión
+  user: string | null;
+  token: string | null;
+  login: (email: string, password: string) => Promise<void>;
   register: (
     name: string,
     email: string,
     password: string,
     city?: string
-  ) => Promise<void>; // Función para registrar un nuevo usuario
-  logout: () => void; // Función para cerrar sesión
+  ) => Promise<void>;
+  logout: () => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -37,27 +37,6 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       setToken(storedToken);
     }
   }, []);
-
-  // const login = async (email: string, password: string) => {
-  //   try {
-  //     const { user: loggedInUser, token: receivedToken } = await loginUser(
-  //       email,
-  //       password
-  //     );
-
-  //     setUser(loggedInUser);
-  //     setToken(receivedToken);
-
-  //     // Guardar en localStorage
-  //     localStorage.setItem("user", loggedInUser);
-  //     localStorage.setItem("token", receivedToken);
-
-  //     console.log("Inicio de sesión exitoso:", { loggedInUser, receivedToken });
-  //   } catch (error) {
-  //     console.error("Error al iniciar sesión:", error);
-  //     throw error;
-  //   }
-  // };
 
   const login = async (email: string, password: string) => {
     try {
@@ -80,7 +59,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       } else {
         console.error("Error al iniciar sesión:", error);
       }
-      alert("Error al iniciar sesión. Intenta nuevamente.");
+
       throw error;
     }
   };
