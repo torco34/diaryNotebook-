@@ -12,7 +12,7 @@ export const MenuAvatar = ({ onClick }: CustomMenu) => {
   const [isMenuVisible, setIsMenuVisible] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const { user } = useAuth();
-  console.log(user);
+  console.log(user?.name, "avata");
   const toggleMenu = () => {
     setIsMenuVisible((prev) => !prev);
   };
@@ -36,8 +36,7 @@ export const MenuAvatar = ({ onClick }: CustomMenu) => {
       <div className="  flex items-center">
         <span className="text-lg top-10 px-7 py-4 font-bold text-blue-950">
           <span className="text-lg top-10 px-7 py-4 font-bold text-blue-950">
-            <strong>{user || "Usuario"}</strong>{" "}
-            {/* Si no hay nombre, muestra "Usuario" */}
+            <strong>{user ? user.name : "Usuario"}</strong>
           </span>
         </span>
         <BaseImg
@@ -49,7 +48,7 @@ export const MenuAvatar = ({ onClick }: CustomMenu) => {
           className=" mx-auto rounded-full cursor-pointer"
         />
       </div>
-      {/* Menu that drops down */}
+
       {isMenuVisible && (
         <div className="absolute right- mt-2  w-48 bg-white  rounded-md shadow-lg">
           <MenuProfile onClick={onClick} />

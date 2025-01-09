@@ -1,10 +1,10 @@
 "use client";
-import Link from "next/link";
 
 import { AllHookNav } from "./components/hooks/AllHookNav";
 import { MenuAvatar } from "./components/MenuAvatar";
 import { MenuUser } from "./components/MenuHeader";
 import { MenuLogo } from "./components/MenuLogo";
+import { MenuPublic } from "./components/MenuPublic";
 const Header = () => {
   const { isAuthenticated, isMenuOpen, logout, toggleMenu, login } =
     AllHookNav();
@@ -42,20 +42,7 @@ const Header = () => {
         >
           {!isAuthenticated && (
             <div className="flex items-center space-x-4">
-              <span className="text-lg top-10 font-bold text-blue-950">
-                ¿No tienes cuenta?
-              </span>
-              <Link
-                href="/viewAuth"
-                className="hover:text-gray-600 font-bold text-sm"
-              >
-                <button
-                  onClick={login}
-                  className="bg-orange-600 font-semibold text-slate-100 px-4 py-2 rounded-lg hover:bg-yellow-300 transition"
-                >
-                  Iniciar sesión
-                </button>
-              </Link>
+              <MenuPublic onLoginClick={login} />
             </div>
           )}
           {isAuthenticated && (

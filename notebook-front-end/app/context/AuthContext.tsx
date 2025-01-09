@@ -9,8 +9,15 @@ import {
 } from "react";
 import { loginUser, registerUser } from "../servicios/auth";
 
+interface User {
+  id: number;
+  name: string;
+  email: string;
+  city?: string;
+}
+
 interface AuthContextType {
-  user: string | null;
+  user: User | null;
   token: string | null;
   login: (email: string, password: string) => Promise<void>;
   register: (
@@ -25,7 +32,7 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<string | null>(null);
+  const [user, setUser] = useState<User | null>(null);
   const [token, setToken] = useState<string | null>(null);
 
   useEffect(() => {
@@ -33,34 +40,34 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const storedToken = localStorage.getItem("token");
 
     if (storedUser && storedToken) {
-      setUser(storedUser);
-      setToken(storedToken);
+      try {
+        setUser(JSON.parse(storedUser)); // Parsear el JSON
+        setToken(storedToken);
+      } catch (error) {
+        console.error("Error al parsear el usuario almacenado:", error);
+        localStorage.removeItem("user"); // Limpia datos inválidos
+      }
     }
   }, []);
 
-  const login = async (email: string, password: string, name: string) => {
+  const login = async (email: string, password: string) => {
     try {
-      const { user: loggedInUser, token: receivedToken } = await loginUser(
-        email,
-        password,
-        name
-      );
+      const response = (await loginUser(email, password)) as unknown as {
+        user: User;
+        token: string;
+      };
+      const { user: loggedInUser, token: receivedToken } = response;
 
-      setUser(name);
+      setUser(loggedInUser);
       setToken(receivedToken);
 
-      // Guardar en localStorage
-      localStorage.setItem("user", loggedInUser);
+      // Guardar en localStorage como JSON
+      localStorage.setItem("user", JSON.stringify(loggedInUser));
       localStorage.setItem("token", receivedToken);
 
       console.log("Inicio de sesión exitoso:", { loggedInUser, receivedToken });
     } catch (error) {
-      if (error instanceof Error) {
-        console.error("Error al iniciar sesión:", error.message);
-      } else {
-        console.error("Error al iniciar sesión:", error);
-      }
-
+      console.error("Error al iniciar sesión:", error);
       throw error;
     }
   };
@@ -72,21 +79,25 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     city?: string
   ) => {
     try {
-      const { user: registeredUser, token: receivedToken } = await registerUser(
+      await registerUser(name, email, password, city);
+      setUser({
+        id: 1,
         name,
         email,
-        password,
-        city
+        city,
+      });
+      setToken("your-token");
+
+      localStorage.setItem(
+        "user",
+        JSON.stringify({
+          id: 1,
+          name,
+          email,
+          city,
+        })
       );
-
-      setUser(registeredUser);
-      setToken(receivedToken);
-
-      // Guardar en localStorage
-      localStorage.setItem("user", registeredUser);
-      localStorage.setItem("token", receivedToken);
-
-      console.log("Registro exitoso:", { registeredUser, receivedToken });
+      localStorage.setItem("token", "your-token");
     } catch (error) {
       console.error("Error al registrar:", error);
       throw error;

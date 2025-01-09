@@ -74,7 +74,7 @@ export class UsersService {
     const payload = { sub: user.id, email: user.email };
     const token = this.jwtService.sign(payload);
 
-    return { user: user.email, token }; // Retornar el email y el token
+    return { user: user.name, token }; // Retornar el email y el token
   }
 
   // Obtener todos los usuarios
