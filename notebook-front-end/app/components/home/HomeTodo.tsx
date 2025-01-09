@@ -1,13 +1,15 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import BaseImg from "../shared/BaseImg";
 
 const HomeTodo = () => {
+  const router = useRouter();
   const handleClient = () => {
     // Aquí va la lógica para conectar con el cliente
     console.log("Conectando con el cliente...");
     // Simulamos que haya un error
-    throw new Error("Error al conectar con el cliente");
+    router.push("/viewAuth");
   };
   return (
     <div className="w-full h-screen bg-blue-950  text-white flex items-center justify-center">
@@ -20,10 +22,16 @@ const HomeTodo = () => {
             fechas de pago y recordatorios importantes.
           </h2>
           <div className="flex w-full max-w-sm mt-8 gap-4">
-            <button className="w-1/2 bg-yellow-600 text-gray-800 px-4 py-2 rounded-md font-semibold hover:bg-yellow-400 transition">
+            <button
+              className="w-1/2 bg-yellow-600 text-gray-800 px-4 py-2 rounded-md font-semibold hover:bg-yellow-400 transition"
+              onClick={handleClient}
+            >
               Registrarse
             </button>
-            <button className="w-1/2 bg-gray-600 text-white px-4 py-2 rounded-md font-semibold hover:bg-gray-700 transition">
+            <button
+              className="w-1/2 bg-gray-600 text-white px-4 py-2 rounded-md font-semibold hover:bg-gray-700 transition"
+              onClick={handleClient}
+            >
               Iniciar sesión
             </button>
           </div>
@@ -36,7 +44,6 @@ const HomeTodo = () => {
             alt="Agenda o libreta de notas"
             width={500}
             height={300}
-            onClick={handleClient}
             className="mb-6 mx-auto"
           />
         </div>
