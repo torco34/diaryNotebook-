@@ -60,16 +60,16 @@ export default function CardDate({
   ];
 
   return (
-    <div className="max-w-sm mx-auto my-4 p-5 bg-white border rounded-lg shadow-md">
+    <div className="max-w-sm mx-auto my-4 p-5 bg-slate-200 border rounded-lg shadow-md">
       <div className="flex justify-between items-center">
         <h2 className="text-lg text-gray-700">{title}</h2>
         <div className="relative">
           <BaseButton
             label=""
             variant="transparent"
-            className="bg-opacity-0 hover:bg-inherit"
+            className="bg-opacity-0 hover:bg"
             onClick={toggleMenu}
-            icon={<FaEllipsisV className="w-5 text-orange-200 h-5" />}
+            icon={<FaEllipsisV className="w-5 text-orange-500 h-5" />}
           />
           {menuOpen && (
             <div className="absolute right-0 mt-2 z-50 bg-white shadow-md rounded-md">

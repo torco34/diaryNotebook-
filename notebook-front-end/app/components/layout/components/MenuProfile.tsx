@@ -8,7 +8,7 @@ interface CustomMenu {
 
 export const MenuProfile = ({ onClick }: CustomMenu) => {
   return (
-    <div className="absolute right-0 mt-2 w-48 bg-slate-100 border border-gray-300 rounded-md shadow-lg">
+    <div className="absolute right- mt-2 w-48 bg-slate-100 border border-gray-300 rounded-md shadow-lg">
       <div className="grid">
         {headerData.menuProfile.map((item, index) => (
           <Link

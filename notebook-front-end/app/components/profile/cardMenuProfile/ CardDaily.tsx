@@ -70,10 +70,10 @@ export const CardDaily = ({
         <div className="relative">
           <BaseButton
             label=""
-            variant=""
-            className="bg-opacity-0 hover:bg-inherit"
+            variant="transparent"
+            className="bg-opacity-0 hover:bg-gray-100 hover:bg-opacity-50 transition-colors duration-200"
             onClick={toggleMenu}
-            icon={<FaEllipsisV className="w-5 text-red-400 h-5" />}
+            icon={<FaEllipsisV className="w-5 text-orange-500 h-5" />}
           />
           {menuOpen && (
             <MenuDate

@@ -68,7 +68,7 @@ const ProfileUser = () => {
   return (
     <div className="w-full h-screen  bg-blue-950 text-white flex  p-5 ">
       <main className="flex flex-col w-full">
-        <div className="flex p-5 text-blue-950">
+        <div className="flex p-5 container mx-auto  text-blue-950">
           <ProfileCard
             src="https://randomuser.me/api/portraits/women/42.jpg"
             alt="Imagen de perfil de Torcoroma"
@@ -80,7 +80,7 @@ const ProfileUser = () => {
             onClick={() => alert("Imagen de perfil clickeada")}
           />
         </div>
-        <div className="flex justify-center gap-6 w-full top-30 right-0 absolute mt-9">
+        <div className="flex justify-center  container mx-auto gap-6 w-full top-30 right-0 absolute mt-9">
           {[
             "Fechas importantes",
             "Gastos diarios",
@@ -92,8 +92,8 @@ const ProfileUser = () => {
               onClick={() => setActiveTab(tab)}
               className={`cursor-pointer px-4 py-2 font-semibold rounded-lg transition ${
                 activeTab === tab
-                  ? "text-red-400 "
-                  : "bg-gra-300 text-gray-100 hover:text-red-400"
+                  ? "text-orange-400 "
+                  : "bg-gra-300 text-gray-100 hover:text-orange-400"
               }`}
             >
               {tab}
@@ -104,7 +104,7 @@ const ProfileUser = () => {
         </div>
         <div className="mt-6">
           {activeTab === "Fechas importantes" && (
-            <div className="container flex gap-4 bg-slate-500 items-center justify-center ">
+            <div className="container flex flex-wra gap-10 bg-slate-00 items-center justify-center mx-auto ">
               {events.map((event) => (
                 <CardDate
                   key={event.id}

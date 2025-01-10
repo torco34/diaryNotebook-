@@ -33,12 +33,11 @@ export const MenuAvatar = ({ onClick }: CustomMenu) => {
 
   return (
     <div ref={menuRef} className="relative inline-block">
-      <div className="  flex items-center">
-        <span className="text-lg top-10 px-7 py-4 font-bold text-blue-950">
-          <span className="text-lg top-10 px-7 py-4 font-bold text-blue-950">
-            <strong>{user ? user.name : "Usuario"}</strong>
-          </span>
+      <div className="  w-max flex items-center">
+        <span className="text-sm flex  mx-9 font-bold text-blue-950">
+          {user ? user.name : "Usuario"}
         </span>
+
         <BaseImg
           src="https://randomuser.me/api/portraits/women/42.jpg"
           alt="Agenda"
@@ -50,7 +49,7 @@ export const MenuAvatar = ({ onClick }: CustomMenu) => {
       </div>
 
       {isMenuVisible && (
-        <div className="absolute right- mt-2  w-48 bg-white  rounded-md shadow-lg">
+        <div className="absolute mx-10 mt-4   w-10/11 bg-white  rounded-md shadow-lg">
           <MenuProfile onClick={onClick} />
         </div>
       )}

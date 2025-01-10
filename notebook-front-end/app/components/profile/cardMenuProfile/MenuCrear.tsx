@@ -28,9 +28,9 @@ export const MenuCrear = () => {
       <BaseButton
         label="Crear"
         variant="secondary"
-        className="mt-6 flex  bg-red-400  gap-2"
+        className="mt-6 flex text-orange-400 bg-blue-900  gap-2"
         onClick={handleShow}
-        icon={<FaAngleDown className="w-5 text-orange-100 h-5" />}
+        icon={<FaAngleDown className="w-5 text-orange-400 h-5" />}
       />
       {isShowMenu && (
         <>

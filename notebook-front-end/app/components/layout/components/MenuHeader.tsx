@@ -9,6 +9,7 @@ import {
 
 import headerData from "../../../json/headerData.json";
 
+// Mapeo de iconos
 const iconMap = {
   FaMapMarkerAlt: FaMapMarkerAlt,
   FaLightbulb: FaLightbulb,
@@ -19,18 +20,21 @@ const iconMap = {
 
 export const MenuUser = () => {
   return (
-    <div className="">
-      <div className="flex">
+    <div className="w-full relative z-50">
+      {/* Contenedor principal del menú */}
+      <div className="flex flex-col md:flex-row items-start md:items-center space-y-4 md:space-y-0 ">
         {headerData.menuHeader.map((item, index) => {
           const Icon = iconMap[item.icon as keyof typeof iconMap];
           return (
             <Link
               key={index}
               href={item.href}
-              className="px-4 py-3 text-sm font-bold grid text-blue-950 hover:text-blue-800 cursor-pointer"
+              className="flex flex-col items-center  px-4 py-3 text-sm font-bold text-blue-950 hover:text-blue-800 cursor-pointer"
             >
-              <Icon className="mx-7 text-orange-500 text-xl" />
-              {item.label}
+              <span className="hidden md:block">
+                <Icon className="text-orange-500 text-2xl mr-2" />
+              </span>
+              <span>{item.label}</span>
             </Link>
           );
         })}
