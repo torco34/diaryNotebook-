@@ -2,8 +2,8 @@ POST http://localhost:4000/api/expenses HTTP/1.1
 Content-Type: application/json
 
 {
-  "name": "Mercado",
-  "price": 305.99,
+  "name": "Cena de navidad",
+  "price": 205.99,
   "date": "2025-01-13T00:00:00.000Z",
   "dayOfWeek": "Martes"
 }
@@ -24,7 +24,7 @@ Content-Type: application/json
 }
 ################################################################
 
-get http://localhost:4000/api/expenses/678552899529970eacbae617 HTTP/1.1
+get http://localhost:4000/api/expenses/678552e6ebe826b0c9e0bc12 HTTP/1.1
 Content-Type: application/json
 
 {
@@ -36,11 +36,11 @@ Content-Type: application/json
 
 ################################################################
 
-PUT  http://localhost:4000/api/expenses/678552899529970eacbae617  HTTP/1.1
+PUT  http://localhost:4000/api/expenses/678552e6ebe826b0c9e0bc12  HTTP/1.1
 Content-Type: application/json
 
 {
-  "name": "mercado",
+  "name": "mercado fin de ano",
   "price": 95.99,
   "date": "2025-01-13T00:00:00.000Z",
   "dayOfWeek": "Martes"
@@ -48,7 +48,7 @@ Content-Type: application/json
 
 ################################################################
 
-delete    http://localhost:4000/api/expenses/6785564560c87570d8e9b225  HTTP/1.1
+delete    http://localhost:4000/api/expenses/678552e6ebe826b0c9e0bc12  HTTP/1.1
 Content-Type: application/json
 
 {
