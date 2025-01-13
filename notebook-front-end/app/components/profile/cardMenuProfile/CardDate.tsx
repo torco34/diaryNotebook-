@@ -1,6 +1,13 @@
 import { useState } from "react";
 
-import { FaBell, FaEllipsisV, FaPen, FaTrash } from "react-icons/fa";
+import {
+  FaBell,
+  FaCalendarAlt,
+  FaEllipsisV,
+  FaPen,
+  FaRegClock,
+  FaTrash,
+} from "react-icons/fa";
 
 import { BaseButton } from "../../shared/BaseButton";
 import MenuDate from "./MenuDate";
@@ -16,7 +23,6 @@ interface BaseCardProps {
   title: string;
   description: string;
   time: string;
-
   diaSemana: string;
   onEdit?: () => void;
   onDelete?: () => void;
@@ -41,7 +47,7 @@ export default function CardDate({
   // Crear menuItems dinámicamente
   const menuItems: MenuItem[] = [
     ...(onEdit
-      ? [{ label: "Editar", icon: FaPen, action: onEdit, color: "green" }]
+      ? [{ label: "Editar", icon: FaPen, action: onEdit, color: "black" }]
       : []),
     ...(onDelete
       ? [{ label: "Eliminar", icon: FaTrash, action: onDelete, color: "red" }]
@@ -52,7 +58,7 @@ export default function CardDate({
             label: "Notificar",
             icon: FaBell,
             action: onNotification,
-            color: "yellow",
+            color: "black",
           },
         ]
       : []),
@@ -60,9 +66,9 @@ export default function CardDate({
   ];
 
   return (
-    <div className="max-w-sm mx-auto my-4 p-5 bg-slate-200 border rounded-lg shadow-md">
+    <div className="max-w-sm mx-auto my-4 p-5 bg-slate-100 border rounded-lg shadow-md relative">
       <div className="flex justify-between items-center">
-        <h2 className="text-lg text-gray-700">{title}</h2>
+        <strong className="text-lg text-blue-900">{title}</strong>
         <div className="relative">
           <BaseButton
             label=""
@@ -72,7 +78,12 @@ export default function CardDate({
             icon={<FaEllipsisV className="w-5 text-orange-500 h-5" />}
           />
           {menuOpen && (
-            <div className="absolute right-0 mt-2 z-50 bg-white shadow-md rounded-md">
+            <div
+              className="absolute right-0 mt-2 z-50 bg-white shadow-md rounded-md border"
+              style={{
+                minWidth: "150px", // Asegurando un tamaño mínimo para el menú
+              }}
+            >
               <MenuDate
                 menuItems={menuItems}
                 isVisible={menuOpen}
@@ -82,15 +93,17 @@ export default function CardDate({
           )}
         </div>
       </div>
-      <p className="mt-2 text-gray-600">
-        <strong>Dia:</strong>
-        {diaSemana}
+      <p className="mt-2 text-gray-600 flex items-center">
+        <FaCalendarAlt className="mr-2 text-orange-500" />
+        <strong className="text-blue-950">Dia:</strong> {diaSemana}
       </p>
       <p className="mt-2 text-gray-600">
-        <strong>Tema: </strong>
-        {description}
+        <strong className="text-blue-950">Tema:</strong> {description}
       </p>
-      <p className="mt-2 text-gray-600 font-semibold">{time}</p>
+      <p className="mt-2 text-blue-950 font-semibold flex items-center">
+        <FaRegClock className="mr-2 text-orange-500" />
+        {time}
+      </p>
     </div>
   );
 }
