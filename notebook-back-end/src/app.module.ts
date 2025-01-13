@@ -6,6 +6,7 @@ import { PrismaService } from './prisma/prisma.service';
 import { ProductsModule } from './products/products.module';
 import { ReminderDateModule } from './reminder-date/reminder-date.module';
 import { UserModule } from './user/user.module';
+import { PendingPurchasesModule } from './pending-purchases/pending-purchases.module';
 @Module({
   imports: [
     ProductsModule,
@@ -13,6 +14,7 @@ import { UserModule } from './user/user.module';
     ItemsModule,
     ReminderDateModule,
     DailyExpensesModule,
+    PendingPurchasesModule,
   ],
   providers: [PrismaService],
 })

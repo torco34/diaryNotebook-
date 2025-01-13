@@ -56,3 +56,11 @@ model DailyExpense {
   date      DateTime
   dayOfWeek String
 }
+
+model PendingPurchase {
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  item      String   
+  completed Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

@@ -13,4 +13,7 @@ export class PrismaService extends PrismaClient {
   get dailyExpense() {
     return this.dailyExpense;
   }
+  get pendingPurchase() {
+    return this.pendingPurchase;
+  }
 }
