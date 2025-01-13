@@ -48,3 +48,11 @@ model ReminderDate {
 
  }
 
+ 
+model DailyExpense {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  name      String
+  price     Float
+  date      DateTime
+  dayOfWeek String
+}
