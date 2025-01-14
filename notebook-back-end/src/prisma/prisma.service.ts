@@ -20,4 +20,7 @@ export class PrismaService extends PrismaClient {
   get specialDate() {
     return this.specialDate;
   }
+  get promotion() {
+    return this.promotion;
+  }
 }

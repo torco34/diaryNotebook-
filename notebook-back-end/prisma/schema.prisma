@@ -57,6 +57,7 @@ model DailyExpense {
   dayOfWeek String
 }
 
+
 model PendingPurchase {
   id        String    @id @default(auto()) @map("_id") @db.ObjectId
   item      String   
@@ -65,12 +66,25 @@ model PendingPurchase {
   updatedAt DateTime @updatedAt
 }
 
+
 model SpecialDate {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
   title       String
   date        DateTime
   time        String
   notify      Boolean  @default(false) // Indica si se notificará
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Promotion {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  description String
+  category    String
+  latitude    Float
+  longitude   Float
+  discount    Float
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }

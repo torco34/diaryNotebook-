@@ -8,6 +8,7 @@ import { ProductsModule } from './products/products.module';
 import { ReminderDateModule } from './reminder-date/reminder-date.module';
 import { SpecialDateModule } from './special-date/special-date.module';
 import { UserModule } from './user/user.module';
+import { PromotionsMapModule } from './promotions-map/promotions-map.module';
 @Module({
   imports: [
     ProductsModule,
@@ -17,6 +18,7 @@ import { UserModule } from './user/user.module';
     DailyExpensesModule,
     PendingPurchasesModule,
     SpecialDateModule,
+    PromotionsMapModule,
   ],
   providers: [PrismaService],
 })
