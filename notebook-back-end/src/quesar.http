@@ -1,15 +1,16 @@
-POST http://localhost:4000/api/purchases HTTP/1.1
+POST http://localhost:4000/api/special-dates HTTP/1.1
 Content-Type: application/json
 
 {
-  "item": "Comprar comida ",
-   "completed": false
+  "title": "Cita caminar dos horas",
+  "date": "2025-01-15T14:00:00.000Z",
+  "time": "14:00",
+  "notify": true
 }
-
 
 ################################################################
 
-GET  http://localhost:4000/api/purchases HTTP/1.1
+GET  http://localhost:4000/api/special-dates HTTP/1.1
 Content-Type: application/json
 
 {
@@ -22,7 +23,7 @@ Content-Type: application/json
 }
 ################################################################
 
-get http://localhost:4000/api/purchases/678569dc12978921f569a076 HTTP/1.1
+get http://localhost:4000/api/special-dates/6786b843f32343e690c021d3 HTTP/1.1
 Content-Type: application/json
 
 {
@@ -34,17 +35,19 @@ Content-Type: application/json
 
 ################################################################
 
-PUT  http://localhost:4000/api/purchases/678569dc12978921f569a076  HTTP/1.1
+PUT   http://localhost:4000/api/special-dates/6786b843f32343e690c021d3  HTTP/1.1
 Content-Type: application/json
 
 {
-  "item": "Comprar camisa",
-   "completed": false
+  "title": "Cita con medicina interna",
+  "date": "2025-01-15T14:00:00.000Z",
+  "time": "16:00",
+  "notify": true
 }
 
 ################################################################
 
-delete   http://localhost:4000/api/purchases/678569dc12978921f569a076  HTTP/1.1
+delete  http://localhost:4000/api/special-dates/6786b869f32343e690c021d4   HTTP/1.1
 Content-Type: application/json
 
 {

@@ -16,4 +16,8 @@ export class PrismaService extends PrismaClient {
   get pendingPurchase() {
     return this.pendingPurchase;
   }
+
+  get specialDate() {
+    return this.specialDate;
+  }
 }
