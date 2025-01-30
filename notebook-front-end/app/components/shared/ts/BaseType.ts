@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 export interface BaseButtonProps {
-  label?: string;
+  label?: ReactNode;
   onClick?: () => void;
   disabled?: boolean;
   type?: "button" | "submit" | "reset";

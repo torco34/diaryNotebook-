@@ -16,7 +16,7 @@ export const BaseFormSelect = ({
       as="select"
       id={name}
       name={name}
-      className="w-full px-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary"
+      className="w-full px-4 py-2 border text-blue-950 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary"
     >
       <option value="">{placeholder}</option>
       {options.map((option, index) => (

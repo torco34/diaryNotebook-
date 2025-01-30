@@ -1,12 +1,17 @@
 "use client";
 
-import { Field, FieldArray, Form, Formik } from "formik";
+import { createExpense } from "@/app/servicios/serviceExpeses";
+import { FieldArray, Form, Formik } from "formik";
 import {
   AiOutlinePlus,
   AiOutlinePlusCircle,
   AiOutlineSave,
 } from "react-icons/ai";
 import { FaTrash } from "react-icons/fa";
+import { BaseButton } from "../shared/BaseButton";
+import { BaseFormDate } from "../shared/BaseFormDate";
+import { BaseFormSelect } from "../shared/BaseFormSelect";
+import { BaseFormText } from "../shared/BaseFormText";
 
 export const FormCreate = () => {
   const daysOfWeek = [
@@ -22,24 +27,23 @@ export const FormCreate = () => {
     items: { name: string; price: string; date: string; dayOfWeek: string }[];
   }) => {
     try {
-      const response = await fetch("/api/save-notes", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(values),
-      });
+      const expenses = values.items.map((item) => ({
+        name: item.name,
+        price: parseFloat(item.price),
+        date: item.date,
+        dayOfWeek: item.dayOfWeek,
+      }));
 
-      if (!response.ok) {
-        throw new Error("Error al enviar los datos al servidor.");
+      for (const expense of expenses) {
+        await createExpense(expense);
       }
 
       alert("Datos enviados con éxito");
-    } catch (error) {
+    } catch (error: unknown) {
       console.error("Error al enviar datos:", error);
-      alert("Hubo un error al enviar los datos.");
     }
   };
+
   return (
     <div className="container mx-auto p-6 bg-gray-100 rounded-lg shadow-md">
       <h1 className="text-2xl font-bold text-blue-900 mb-4">Crear Apuntes</h1>
@@ -63,63 +67,52 @@ export const FormCreate = () => {
                       >
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                           <div>
-                            <label className="block text-sm font-medium text-gray-700">
-                              Nombre del producto:
-                            </label>
-                            <Field
+                            <BaseFormText
                               name={`items.${index}.name`}
+                              label="Nombre del producto:"
                               placeholder="Producto"
-                              className="w-full mt-1 p-2 text-blue-900 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                             />
                           </div>
                           <div>
-                            <label className="block text-sm font-medium text-gray-700">
-                              Precio del producto:
-                            </label>
-                            <Field
+                            <BaseFormText
                               name={`items.${index}.price`}
+                              label="Precio del producto:"
                               type="number"
                               placeholder="Precio"
-                              className="w-full mt-1 text-gray-700 p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                             />
                           </div>
                           <div>
-                            <label className="block text-sm font-medium text-gray-700">
-                              Fecha:
-                            </label>
-                            <Field
+                            <BaseFormDate
                               name={`items.${index}.date`}
-                              type="date"
-                              className="w-full mt-1 p-2 text-gray-700 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                              label="Fecha"
+                              placeholder="Selecciona una fecha"
                             />
                           </div>
                           <div>
-                            <label className="block text-sm font-medium text-gray-700">
-                              Día de la semana:
-                            </label>
-                            <Field
-                              as="select"
+                            <BaseFormSelect
                               name={`items.${index}.dayOfWeek`}
-                              className="w-full mt-1 p-2 border text-gray-700 border-gray-300 rounded-md shadow-sm focus:ring-blue-900 focus:border-blue-500"
-                            >
-                              {daysOfWeek.map((day) => (
-                                <option key={day} value={day}>
-                                  {day}
-                                </option>
-                              ))}
-                            </Field>
+                              label="Día de la semana:"
+                              options={daysOfWeek}
+                              placeholder="Selecciona un día"
+                            />
                           </div>
                         </div>
                         <div className="flex justify-end space-x-4 mt-4">
-                          <button
-                            type="button"
+                          <BaseButton
+                            icon={<FaTrash size={20} />}
+                            variant="danger"
                             onClick={() => arrayHelpers.remove(index)}
-                            className="flex items-center space-x-1 text-red-500 hover:text-red-600"
-                          >
-                            <FaTrash size={20} />
-                          </button>
-                          <button
-                            type="button"
+                            className="flex items-center text-red-500 space-x-1"
+                          />
+
+                          <BaseButton
+                            label={
+                              <>
+                                <AiOutlinePlusCircle size={20} />
+                                <span>Agregar</span>
+                              </>
+                            }
+                            variant="white"
                             onClick={() =>
                               arrayHelpers.insert(index + 1, {
                                 name: "",
@@ -129,16 +122,19 @@ export const FormCreate = () => {
                               })
                             }
                             className="flex items-center space-x-2 text-green-600 hover:text-green-800"
-                          >
-                            <AiOutlinePlusCircle size={20} />
-                            <span>Agregar</span>
-                          </button>
+                          />
                         </div>
                       </div>
                     ))
                   ) : (
-                    <button
-                      type="button"
+                    <BaseButton
+                      label={
+                        <>
+                          <AiOutlinePlus size={20} />
+                          <span>Crear apuntes</span>
+                        </>
+                      }
+                      variant="primary"
                       onClick={() =>
                         arrayHelpers.push({
                           name: "",
@@ -147,21 +143,22 @@ export const FormCreate = () => {
                           dayOfWeek: "Lunes",
                         })
                       }
-                      className="flex items-center space-x-2 px-4 py-2 bg-blue-900 text-white font-semibold rounded-lg shadow-md hover:bg-blue-600"
-                    >
-                      <AiOutlinePlus size={20} />
-                      <span>Crear apuntes</span>
-                    </button>
+                      className="flex items-center space-x-2 px-4 py-2 font-semibold rounded-lg shadow-md"
+                    />
                   )}
                   {values.items.length > 0 && (
                     <div className="flex justify-center mt-6">
-                      <button
-                        type="submit"
-                        className="flex items-center space-x-2 px-4 py-2 bg-blue-900 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700"
-                      >
-                        <AiOutlineSave size={20} />
-                        <span>Guardar apuntes</span>
-                      </button>
+                      <BaseButton
+                        label={
+                          <>
+                            <AiOutlineSave size={20} />
+                            <span>Guardar apuntes</span>
+                          </>
+                        }
+                        variant="primary"
+                        type="submit" // Esto asegura que el botón funcione como botón de envío
+                        className="flex items-center space-x-2 px-4 py-2 font-semibold rounded-lg shadow-md"
+                      />
                     </div>
                   )}
                 </div>

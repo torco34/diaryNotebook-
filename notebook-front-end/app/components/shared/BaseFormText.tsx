@@ -9,7 +9,10 @@ export const BaseFormText = ({
   placeholder,
 }: IBaseTextForm) => (
   <div className="mb-4">
-    <label htmlFor={name} className="block text-lg text-foreground mb-2">
+    <label
+      htmlFor={name}
+      className="block text-blue-950 text-lg text-foregr mb-2"
+    >
       {label}
     </label>
     <Field
@@ -17,7 +20,7 @@ export const BaseFormText = ({
       id={name}
       name={name}
       placeholder={placeholder}
-      className="w-full px-4 py-2 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary"
+      className="w-full px-4 py-2 text-blue-950 border rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-primary"
     />
     <ErrorMessage
       name={name}
