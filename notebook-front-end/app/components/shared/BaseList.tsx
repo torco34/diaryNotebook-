@@ -62,7 +62,7 @@ export const BaseList = ({
               {/* Icono de eliminar */}
               {onDelete && (
                 <button
-                  onClick={() => onDelete(expense._id)}
+                  onClick={() => expense._id && onDelete(expense._id)}
                   className="text-gray-200 hover:text-gray-100 font-semibold p-2 rounded-full hover:bg-red-500 transition duration-300"
                 >
                   <FaRegTrashAlt className="text-1xl" />

@@ -24,10 +24,10 @@ export interface MenuUserProps {
 }
 // type de BaseList 
 export interface IExpense {
-  _id: string;
+  _id: string | undefined;
   name: string;
   price: number;
-  date: string; 
+  date: string;
   dayOfWeek: string;
 }
 export interface ExpenseListProps {
