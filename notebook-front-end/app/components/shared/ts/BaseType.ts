@@ -22,3 +22,18 @@ export interface BaseImgProps {
 export interface MenuUserProps {
   links: { label: string; href: string; icon?: ReactNode }[];
 }
+// type de BaseList 
+export interface IExpense {
+  _id: string;
+  name: string;
+  price: number;
+  date: string; 
+  dayOfWeek: string;
+}
+export interface ExpenseListProps {
+  expenses: IExpense[];
+  title?: string; 
+  showDate?: boolean; 
+  onEdit?: (expense: IExpense) => void; 
+  onDelete?: (id: string) => void; 
+}

@@ -1,76 +1,71 @@
 "use client";
 
-import React from "react";
+import { FaPencilAlt, FaRegTrashAlt } from "react-icons/fa";
+import { ExpenseListProps } from "./ts/BaseType";
 
-// Definición de la interfaz IExpense
-interface IExpense {
-  _id: string;
-  name: string;
-  price: number;
-  date: string;
-  dayOfWeek: string;
-}
-
-// Props para el componente ExpenseList
-interface ExpenseListProps {
-  expenses: IExpense[];
-  title?: string; // Título opcional
-  showDate?: boolean; // Controla si se muestra la fecha o no
-  onEdit?: (expense: IExpense) => void; // Callback para editar
-  onDelete?: (id: string) => void; // Callback para eliminar
-}
-
-const ExpenseList: React.FC<ExpenseListProps> = ({
+export const BaseList = ({
   expenses,
   title = "Lista de Gastos",
   showDate = false,
   onEdit,
   onDelete,
-}) => {
+}: ExpenseListProps) => {
   return (
-    <div>
+    <div className="bg-blue-950 min-h-screen text-gray-100 p-4">
       {title && (
-        <h2 className="text-3xl font-semibold text-center mb-6 underline decoration-orange-400">
+        <h2 className="text-4xl font-semibold text-center text-orange-400 mb-8">
           {title}
         </h2>
       )}
-      <div className="space-y-6">
+
+      <div className="space-y-8">
         {expenses.map((expense) => (
           <div
             key={expense._id}
-            className="bg-gray-100 p-4 rounded-lg shadow-lg flex justify-between items-center"
+            className="bg-gradient-to-r from-blue-950 to-blue-800 p-2 rounded-2xl shadow-lg hover:shadow-2xl transition-shadow duration-300 relative flex justify-between items-center"
           >
-            <div>
-              <h3 className="text-xl font-semibold text-blue-950">
+            {/* Contenedor de la información del gasto */}
+            <div className="flex flex-col space-x-3 text-gray-100">
+              <h3 className="text-2xl font-semibold text-orange-400">
                 {expense.name}
               </h3>
+
+              {/* Mostrar fecha con formato personalizado */}
               {showDate && (
-                <p className="text-gray-500">
-                  {new Date(expense.date).toLocaleDateString()} -{" "}
-                  {expense.dayOfWeek}
+                <p className="text-sm font-semibold text-gray-300">
+                  {/* Mostrar fecha en formato "10 de enero, Lunes" */}
+                  {new Date(expense.date).toLocaleDateString("es-ES", {
+                    day: "numeric", // Día numérico (10, 20, etc.)
+                    month: "long", // Mes completo (enero, febrero, etc.)
+                  })}{" "}
+                  - {expense.dayOfWeek}{" "}
+                  {/* Día de la semana (Lunes, Martes, etc.) */}
                 </p>
               )}
-            </div>
-            <div className="flex items-center space-x-4">
-              <p className="text-xl font-semibold text-orange-400">
+
+              {/* Mostrar el precio */}
+              <p className="text-xl font-bold text-gray-200">
                 ${expense.price.toFixed(2)}
               </p>
-              {/* Botón para editar */}
+            </div>
+
+            {/* Contenedor de los íconos de editar y eliminar */}
+            <div className="absolute top-2 right-4 flex items-center space-x-0">
               {onEdit && (
                 <button
                   onClick={() => onEdit(expense)}
-                  className="text-blue-600 hover:text-blue-800 font-semibold"
+                  className="text-gray-200 hover:text-gray-100 font-semibold p-2 rounded-full hover:bg-orange-400 transition duration-300"
                 >
-                  Editar
+                  <FaPencilAlt className="text-1xl" />
                 </button>
               )}
-              {/* Botón para eliminar */}
+              {/* Icono de eliminar */}
               {onDelete && (
                 <button
                   onClick={() => onDelete(expense._id)}
-                  className="text-red-600 hover:text-red-800 font-semibold"
+                  className="text-gray-200 hover:text-gray-100 font-semibold p-2 rounded-full hover:bg-red-500 transition duration-300"
                 >
-                  Eliminar
+                  <FaRegTrashAlt className="text-1xl" />
                 </button>
               )}
             </div>
@@ -80,5 +75,3 @@ const ExpenseList: React.FC<ExpenseListProps> = ({
     </div>
   );
 };
-
-export default ExpenseList;

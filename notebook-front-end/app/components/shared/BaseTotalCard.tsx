@@ -1,4 +1,3 @@
-// Reusable TotalCard Component
 interface ITotalCardProps {
   title: string;
   value: number;
@@ -7,11 +6,9 @@ interface ITotalCardProps {
 
 export const TotalCard = ({ title, value, gradient }: ITotalCardProps) => (
   <div
-    className={`p-6 rounded-lg shadow-xl w-1/2 ${gradient} flex flex-col justify-center`}
+    className={`p-8 rounded-2xl shadow-lg ${gradient} flex flex-col justify-between h-full transition-all duration-300 transform hover:scale-105`}
   >
-    <h1 className="text-2xl font-bold text-blue-950">{title}</h1>
-    <p className="text-4xl font-semibold mt-2 text-gray-100">
-      ${value.toFixed(2)}
-    </p>
+    <h1 className="text-3xl font-semibold text-gray-100">{title}</h1>
+    <p className="text-5xl font-bold mt-2 text-gray-100">${value.toFixed(2)}</p>
   </div>
 );

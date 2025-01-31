@@ -1,6 +1,8 @@
 "use client";
 
+import { TotalCard } from "@/app/components/shared/BaseTotalCard";
 import { useEffect, useState } from "react";
+import { BaseList } from "../../components/shared/BaseList";
 import { getAllExpenses } from "../../servicios/serviceExpeses";
 
 // Define la interfaz IExpense
@@ -64,54 +66,39 @@ export default function SuperProp() {
     fetchExpenses();
   }, []); // Solo se ejecuta al montar el componente
 
+  // Función para editar un gasto
+  const handleEdit = (expense: IExpense) => {
+    // Lógica para editar, por ejemplo, abrir un modal o redirigir a una página de edición
+    console.log("Editar gasto:", expense);
+  };
+
+  // Función para eliminar un gasto
+  const handleDelete = (id: string) => {
+    alert(id);
+    console.log("Eliminar gasto con ID:", id);
+  };
+
   return (
     <div className="bg-blue-950 min-h-screen text-gray-100 p-10">
-      {/* Contenedor para los totales */}
       <div className="flex justify-between items-center mb-8">
-        <div className="bg-gradient-to-r from-orange-400 to-yellow-400 p-6 rounded-lg shadow-xl w-1/2">
-          <h1 className="text-2xl font-bold text-blue-950">
-            Suma total del día
-          </h1>
-          <p className="text-4xl font-semibold mt-2 text-gray-100">
-            ${totalDay.toFixed(2)}
-          </p>
-        </div>
-        <div className="bg-gradient-to-r from-orange-400 to-yellow-400 p-6 rounded-lg shadow-xl w-1/2 ml-6">
-          <h1 className="text-2xl font-bold text-blue-950">
-            Suma total del mes
-          </h1>
-          <p className="text-4xl font-semibold mt-2 text-gray-100">
-            ${totalMonth.toFixed(2)}
-          </p>
-        </div>
+        <TotalCard
+          title="Suma total del día"
+          value={totalDay}
+          gradient="bg-gradient-to-r from-orange-400 to-yellow-400"
+        />
+        <TotalCard
+          title="Suma total del mes"
+          value={totalMonth}
+          gradient="bg-gradient-to-r from-orange-400 to-yellow-400 ml-6"
+        />
       </div>
-
-      {/* Lista de gastos */}
-      <div>
-        <h2 className="text-3xl font-semibold text-center mb-6 underline decoration-orange-400">
-          Lista de Gastos
-        </h2>
-        <div className="space-y-6">
-          {expenses.map((expense) => (
-            <div
-              key={expense._id}
-              className="bg-gray-100 p-4 rounded-lg shadow-lg flex justify-between items-center"
-            >
-              <div>
-                <h3 className="text-xl font-semibold text-blue-950">
-                  {expense.name}
-                </h3>
-                <p className="text-gray-500">{expense.dayOfWeek}</p>
-              </div>
-              <div>
-                <p className="text-xl font-semibold text-orange-400">
-                  ${expense.price.toFixed(2)}
-                </p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
+      <BaseList
+        expenses={expenses}
+        title="Lista de Gastos"
+        showDate={true}
+        onEdit={handleEdit}
+        onDelete={handleDelete}
+      />
     </div>
   );
 }
