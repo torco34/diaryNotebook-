@@ -2,8 +2,8 @@ import axios from "axios";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
 
-interface IExpense {
-  id?: string;
+export interface IExpense {
+  _id: string | undefined;
   name: string;
   price: number;
   date: string; // Asegúrate de enviar las fechas en formato ISO
