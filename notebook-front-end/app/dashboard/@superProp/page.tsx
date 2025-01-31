@@ -65,21 +65,44 @@ export default function SuperProp() {
   }, []); // Solo se ejecuta al montar el componente
 
   return (
-    <div className="mx-10 text-white">
-      <h1 className="text-white p-5">Suma total del día: ${totalDay}</h1>
-      <h1 className="text-white p-5">Suma total del mes: ${totalMonth}</h1>
+    <div className="bg-gray-900 min-h-screen text-white p-10">
+      {/* Contenedor para los totales */}
+      <div className="flex justify-between items-center mb-8">
+        <div className="bg-gradient-to-r from-purple-600 to-blue-500 p-6 rounded-lg shadow-xl w-1/2">
+          <h1 className="text-2xl font-bold">Suma total del día</h1>
+          <p className="text-4xl font-semibold mt-2">${totalDay.toFixed(2)}</p>
+        </div>
+        <div className="bg-gradient-to-r from-green-600 to-teal-500 p-6 rounded-lg shadow-xl w-1/2 ml-6">
+          <h1 className="text-2xl font-bold">Suma total del mes</h1>
+          <p className="text-4xl font-semibold mt-2">
+            ${totalMonth.toFixed(2)}
+          </p>
+        </div>
+      </div>
 
-      {/* Mostrar los gastos en una lista */}
-      <div className="p-5">
-        <h2 className="text-white">Gastos:</h2>
-        <ul>
+      {/* Lista de gastos */}
+      <div>
+        <h2 className="text-3xl font-semibold text-center mb-6">
+          Lista de Gastos
+        </h2>
+        <div className="space-y-6">
           {expenses.map((expense) => (
-            <li key={expense._id} className="text-white">
-              <strong>{expense.name}</strong> - ${expense.price} (
-              {expense.dayOfWeek})
-            </li>
+            <div
+              key={expense._id}
+              className="bg-gray-800 p-4 rounded-lg shadow-lg flex justify-between items-center"
+            >
+              <div>
+                <h3 className="text-xl font-semibold">{expense.name}</h3>
+                <p className="text-gray-400">{expense.dayOfWeek}</p>
+              </div>
+              <div>
+                <p className="text-xl font-semibold text-green-400">
+                  ${expense.price.toFixed(2)}
+                </p>
+              </div>
+            </div>
           ))}
-        </ul>
+        </div>
       </div>
     </div>
   );
