@@ -23,6 +23,7 @@ export const FormCreate = () => {
     "Sábado",
     "Domingo",
   ];
+
   const handleSubmit = async (values: {
     items: { name: string; price: string; date: string; dayOfWeek: string }[];
   }) => {
@@ -46,7 +47,9 @@ export const FormCreate = () => {
 
   return (
     <div className="container mx-auto p-6 bg-gray-100 rounded-lg shadow-md">
-      <h1 className="text-2xl font-bold text-blue-900 mb-4">Crear Apuntes</h1>
+      <h1 className="text-3xl font-bold text-blue-950 mb-4 underline decoration-orange-400">
+        Crear Apuntes
+      </h1>
       <Formik
         initialValues={{
           items: [{ name: "", price: "", date: "", dayOfWeek: "Lunes" }],
@@ -63,7 +66,7 @@ export const FormCreate = () => {
                     values.items.map((item, index) => (
                       <div
                         key={index}
-                        className="bg-gray-100 p-4 rounded-lg shadow-sm border border-gray-200"
+                        className="bg-blue-950 p-4 rounded-lg shadow-sm border border-gray-200"
                       >
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                           <div>
@@ -102,7 +105,7 @@ export const FormCreate = () => {
                             icon={<FaTrash size={20} />}
                             variant="danger"
                             onClick={() => arrayHelpers.remove(index)}
-                            className="flex items-center text-red-500 space-x-1"
+                            className="flex items-center text-orange-400 space-x-1 hover:text-red-500"
                           />
 
                           <BaseButton
@@ -121,7 +124,7 @@ export const FormCreate = () => {
                                 dayOfWeek: "Lunes",
                               })
                             }
-                            className="flex items-center space-x-2 text-green-600 hover:text-green-800"
+                            className="flex items-center space-x-2 text-orange-400 hover:text-orange-600"
                           />
                         </div>
                       </div>
@@ -143,7 +146,7 @@ export const FormCreate = () => {
                           dayOfWeek: "Lunes",
                         })
                       }
-                      className="flex items-center space-x-2 px-4 py-2 font-semibold rounded-lg shadow-md"
+                      className="flex items-center space-x-2 px-4 py-2 font-semibold rounded-lg shadow-md bg-orange-400 text-gray-100 hover:bg-orange-500"
                     />
                   )}
                   {values.items.length > 0 && (
@@ -155,9 +158,9 @@ export const FormCreate = () => {
                             <span>Guardar apuntes</span>
                           </>
                         }
-                        variant="primary"
-                        type="submit" // Esto asegura que el botón funcione como botón de envío
-                        className="flex items-center space-x-2 px-4 py-2 font-semibold rounded-lg shadow-md"
+                        variant="secondary"
+                        type="submit"
+                        className="flex items-center space-x-2 px-4 py-2 font-semibold rounded-lg shadow-md bg-orange-400 text-gray-100 hover:bg-orange-500"
                       />
                     </div>
                   )}

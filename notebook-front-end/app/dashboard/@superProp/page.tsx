@@ -65,16 +65,22 @@ export default function SuperProp() {
   }, []); // Solo se ejecuta al montar el componente
 
   return (
-    <div className="bg-gray-900 min-h-screen text-white p-10">
+    <div className="bg-blue-950 min-h-screen text-gray-100 p-10">
       {/* Contenedor para los totales */}
       <div className="flex justify-between items-center mb-8">
-        <div className="bg-gradient-to-r from-purple-600 to-blue-500 p-6 rounded-lg shadow-xl w-1/2">
-          <h1 className="text-2xl font-bold">Suma total del día</h1>
-          <p className="text-4xl font-semibold mt-2">${totalDay.toFixed(2)}</p>
+        <div className="bg-gradient-to-r from-orange-400 to-yellow-400 p-6 rounded-lg shadow-xl w-1/2">
+          <h1 className="text-2xl font-bold text-blue-950">
+            Suma total del día
+          </h1>
+          <p className="text-4xl font-semibold mt-2 text-gray-100">
+            ${totalDay.toFixed(2)}
+          </p>
         </div>
-        <div className="bg-gradient-to-r from-green-600 to-teal-500 p-6 rounded-lg shadow-xl w-1/2 ml-6">
-          <h1 className="text-2xl font-bold">Suma total del mes</h1>
-          <p className="text-4xl font-semibold mt-2">
+        <div className="bg-gradient-to-r from-orange-400 to-yellow-400 p-6 rounded-lg shadow-xl w-1/2 ml-6">
+          <h1 className="text-2xl font-bold text-blue-950">
+            Suma total del mes
+          </h1>
+          <p className="text-4xl font-semibold mt-2 text-gray-100">
             ${totalMonth.toFixed(2)}
           </p>
         </div>
@@ -82,21 +88,23 @@ export default function SuperProp() {
 
       {/* Lista de gastos */}
       <div>
-        <h2 className="text-3xl font-semibold text-center mb-6">
+        <h2 className="text-3xl font-semibold text-center mb-6 underline decoration-orange-400">
           Lista de Gastos
         </h2>
         <div className="space-y-6">
           {expenses.map((expense) => (
             <div
               key={expense._id}
-              className="bg-gray-800 p-4 rounded-lg shadow-lg flex justify-between items-center"
+              className="bg-gray-100 p-4 rounded-lg shadow-lg flex justify-between items-center"
             >
               <div>
-                <h3 className="text-xl font-semibold">{expense.name}</h3>
-                <p className="text-gray-400">{expense.dayOfWeek}</p>
+                <h3 className="text-xl font-semibold text-blue-950">
+                  {expense.name}
+                </h3>
+                <p className="text-gray-500">{expense.dayOfWeek}</p>
               </div>
               <div>
-                <p className="text-xl font-semibold text-green-400">
+                <p className="text-xl font-semibold text-orange-400">
                   ${expense.price.toFixed(2)}
                 </p>
               </div>

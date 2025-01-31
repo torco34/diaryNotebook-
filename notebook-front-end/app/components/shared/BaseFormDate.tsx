@@ -6,13 +6,9 @@ interface BaseFormDateProps {
   placeholder: string;
 }
 
-export const BaseFormDate = ({
-  name,
-  label,
-  placeholder,
-}: BaseFormDateProps) => (
+export const BaseFormDate = ({ name, label, placeholder }: BaseFormDateProps) => (
   <div className="mb-4">
-    <label htmlFor={name} className="block text-sm font-medium text-gray-700">
+    <label htmlFor={name} className="block text-sm font-medium text-gray-100">
       {label}
     </label>
     <Field

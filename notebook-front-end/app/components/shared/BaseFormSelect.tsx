@@ -9,7 +9,7 @@ export const BaseFormSelect = ({
   placeholder,
 }: IBaseSelectForm) => (
   <div className="mb-4">
-    <label htmlFor={name} className="block text-lg text-foreground mb-2">
+    <label htmlFor={name} className="block text-blue-100 text-lg  mb-2">
       {label}
     </label>
     <Field
