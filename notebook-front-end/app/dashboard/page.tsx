@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { FaReplyAll } from "react-icons/fa";
+import { MdArrowBack } from "react-icons/md";
 
 export default function Dashboard() {
   return (
@@ -8,8 +8,8 @@ export default function Dashboard() {
       <div className="min-h-screen  p-10  text-white">
         <h1></h1>
         <Link href="/viewProfile" className="flex font-semibold gap-2">
-          <FaReplyAll className="text-white font-semibold text-2xl" /> Ver
-          Perfil
+          <MdArrowBack size={24} className="text-orange-400 cursor-pointer" />{" "}
+          Ver Perfil
         </Link>
       </div>
     </>

@@ -112,7 +112,7 @@ export const FormCreate = () => {
                             label={
                               <>
                                 <AiOutlinePlusCircle size={20} />
-                                <span>Agregar</span>
+                                <span>Agregar mas campos</span>
                               </>
                             }
                             variant="white"
