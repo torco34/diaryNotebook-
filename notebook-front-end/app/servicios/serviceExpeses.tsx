@@ -70,7 +70,7 @@ export const updateExpense = async (
 // Eliminar un gasto
 export const deleteExpense = async (id: string): Promise<void> => {
   try {
-    await axios.delete(`${API_URL}/expenses/${id}`);
+    await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/expenses/${id}`);
   } catch (error: unknown) {
     if (axios.isAxiosError(error) && error.response) {
       throw new Error(

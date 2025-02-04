@@ -35,6 +35,13 @@ export class DailyExpensesService {
         date: data.date,
         dayOfWeek: data.dayOfWeek,
       },
+      select: {
+        id: true,
+        name: true,
+        price: true,
+        date: true,
+        dayOfWeek: true,
+      },
     });
   }
 
@@ -73,17 +80,25 @@ export class DailyExpensesService {
   }
 
   // Eliminar un DailyExpense
-  async deleteDailyExpense(id: string) {
-    const existingExpense = await this.prismaService.dailyExpense.findUnique({
-      where: { id },
-    });
+  // Eliminar un DailyExpense
+  async deleteDailyExpense(id: string): Promise<{ message: string }> {
+    try {
+      const expense = await this.prismaService.dailyExpense.findUnique({
+        where: { id },
+      });
 
-    if (!existingExpense) {
-      throw new NotFoundException(`No se encontró un gasto con el ID "${id}".`);
+      if (!expense) {
+        throw new NotFoundException(`Gasto con ID ${id} no encontrado.`);
+      }
+
+      await this.prismaService.dailyExpense.delete({
+        where: { id }, // Prisma usa 'delete' con 'where'
+      });
+
+      return { message: 'Gasto eliminado correctamente.' };
+    } catch (error) {
+      console.error('Error en deleteDailyExpense:', error);
+      throw error;
     }
-
-    return this.prismaService.dailyExpense.delete({
-      where: { id },
-    });
   }
 }

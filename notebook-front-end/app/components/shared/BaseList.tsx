@@ -10,6 +10,9 @@ export const BaseList = ({
   onEdit,
   onDelete,
 }: ExpenseListProps) => {
+  if (!expenses.id) {
+    console.warn("Gasto sin ID:", expenses); // 👈 Esto ayudará a detectar el problema
+  }
   return (
     <div className="bg-blue-950 min-h-screen text-gray-100 p-4">
       {title && (
@@ -60,9 +63,10 @@ export const BaseList = ({
                 </button>
               )}
               {/* Icono de eliminar */}
+
               {onDelete && (
                 <button
-                  onClick={() => expense._id && onDelete(expense._id)}
+                  onClick={() => onDelete(expense.id!)}
                   className="text-gray-200 hover:text-gray-100 font-semibold p-2 rounded-full hover:bg-red-500 transition duration-300"
                 >
                   <FaRegTrashAlt className="text-1xl" />

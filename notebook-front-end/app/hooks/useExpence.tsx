@@ -3,7 +3,11 @@ import { useEffect, useState } from "react";
 
 import axios from "axios";
 
-import { getAllExpenses, IExpense } from "../servicios/serviceExpeses";
+import {
+  deleteExpense,
+  getAllExpenses,
+  IExpense,
+} from "../servicios/serviceExpeses";
 
 // Define la interfaz IExpense
 
@@ -76,14 +80,25 @@ export function useExpenses() {
   };
 
   // Función para eliminar un gasto
-  const handleDelete = async (id: string) => {
+
+  const handleDelete = async (id: string | undefined) => {
+    if (!id) {
+      alert("ID del gasto no es válido.");
+      return;
+    }
+
+    const confirmDelete = confirm(
+      "¿Estás seguro de que quieres eliminar este gasto?"
+    );
+    if (!confirmDelete) return;
+
     try {
-      await axios.delete(`/api/expenses/${id}`); // Llamada DELETE a la API para eliminar el gasto
-      setExpenses(expenses.filter((expense) => expense._id !== id)); // Eliminarlo de la lista local
-      setFilteredExpenses(
-        filteredExpenses.filter((expense) => expense._id !== id)
-      ); // Actualizar la lista filtrada
-      calculateTotals(expenses); // Recalcular los totales
+      await deleteExpense(id); // ✅ Usamos 'id' correctamente aquí
+      setExpenses((prev) => prev.filter((expense) => expense.id !== id)); // ✅ Cambiar '_id' por 'id'
+      setFilteredExpenses((prev) =>
+        prev.filter((expense) => expense.id !== id)
+      ); // ✅ Cambiar '_id' por 'id'
+      calculateTotals(expenses); // Recalcula los totales
     } catch (error) {
       console.error("Error al eliminar el gasto:", error);
       alert("Hubo un error al eliminar el gasto.");
@@ -92,6 +107,7 @@ export function useExpenses() {
 
   // Función para editar un gasto
   const handleEdit = async (updatedExpense: IExpense) => {
+    alert("¿Estás seguro de que quieres eliminar este gasto?");
     try {
       await axios.put(`/api/expenses/${updatedExpense._id}`, updatedExpense); // Llamada PUT para actualizar el gasto en la base de datos
       // Actualizar el gasto en el estado local
