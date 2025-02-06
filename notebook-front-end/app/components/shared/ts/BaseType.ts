@@ -25,6 +25,7 @@ export interface MenuUserProps {
 // type de BaseList 
 export interface IExpense {
   _id: string | undefined;
+  id?: string;
   name: string;
   price: number;
   date: string;

@@ -2,6 +2,7 @@
 
 import { createExpense } from "@/app/servicios/serviceExpeses";
 import { FieldArray, Form, Formik } from "formik";
+import toast, { Toaster } from "react-hot-toast";
 import {
   AiOutlinePlus,
   AiOutlinePlusCircle,
@@ -13,6 +14,7 @@ import { BaseFormDate } from "../shared/BaseFormDate";
 import { BaseFormSelect } from "../shared/BaseFormSelect";
 import { BaseFormText } from "../shared/BaseFormText";
 
+import * as Yup from "yup";
 export const FormCreate = () => {
   const daysOfWeek = [
     "Lunes",
@@ -23,12 +25,30 @@ export const FormCreate = () => {
     "Sábado",
     "Domingo",
   ];
-
-  const handleSubmit = async (values: {
-    items: { name: string; price: string; date: string; dayOfWeek: string }[];
-  }) => {
+  const validationSchema = Yup.object().shape({
+    items: Yup.array().of(
+      Yup.object().shape({
+        name: Yup.string().required("⚠️ El nombre es obligatorio"),
+        price: Yup.number()
+          .typeError("⚠️ El precio debe ser un número")
+          .positive("⚠️ Debe ser mayor a 0")
+          .required("⚠️ El precio es obligatorio"),
+        date: Yup.date().required("⚠️ La fecha es obligatoria"),
+        dayOfWeek: Yup.string().required(
+          "⚠️ El día de la semana es obligatorio"
+        ),
+      })
+    ),
+  });
+  const handleSubmit = async (
+    values: {
+      items: { name: string; price: string; date: string; dayOfWeek: string }[];
+    },
+    { resetForm }: { resetForm: () => void }
+  ) => {
     try {
       const expenses = values.items.map((item) => ({
+        _id: undefined,
         name: item.name,
         price: parseFloat(item.price),
         date: item.date,
@@ -39,14 +59,40 @@ export const FormCreate = () => {
         await createExpense(expense);
       }
 
-      alert("Datos enviados con éxito");
+      toast.success("✅ ¡Datos guardados con éxito!", {
+        duration: 4000,
+        position: "top-center",
+        style: {
+          background: "#FBA518",
+          color: "#fff",
+          fontSize: "16px",
+          fontWeight: "bold",
+          borderRadius: "10px",
+        },
+        icon: "🎉",
+      });
+
+      resetForm();
     } catch (error: unknown) {
       console.error("Error al enviar datos:", error);
+      toast.error("❌ Ocurrió un error. Inténtalo de nuevo.", {
+        duration: 4000,
+        position: "top-center",
+        style: {
+          background: "#dc2626",
+          color: "#fff",
+          fontSize: "16px",
+          fontWeight: "bold",
+          borderRadius: "10px",
+        },
+        icon: "⚠️",
+      });
     }
   };
 
   return (
     <div className="container mx-auto p-6 bg-gray-100 rounded-lg shadow-md">
+      <Toaster />
       <h1 className="text-3xl font-bold text-blue-950 mb-4 underline decoration-orange-400">
         Crear Apuntes
       </h1>
@@ -54,6 +100,7 @@ export const FormCreate = () => {
         initialValues={{
           items: [{ name: "", price: "", date: "", dayOfWeek: "Lunes" }],
         }}
+        validationSchema={validationSchema}
         onSubmit={handleSubmit}
       >
         {({ values }) => (
