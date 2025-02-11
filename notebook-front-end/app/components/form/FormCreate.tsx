@@ -49,6 +49,7 @@ export const FormCreate = () => {
     try {
       const expenses = values.items.map((item) => ({
         _id: undefined,
+        id: item.id,
         name: item.name,
         price: parseFloat(item.price),
         date: item.date,
@@ -59,13 +60,13 @@ export const FormCreate = () => {
         await createExpense(expense);
       }
 
-      toast.success("✅ ¡Datos guardados con éxito!", {
+      toast.success("¡Datos guardados con éxito!", {
         duration: 4000,
         position: "top-center",
         style: {
-          background: "#FBA518",
+          background: "#2973B2",
           color: "#fff",
-          fontSize: "16px",
+          fontSize: "18px",
           fontWeight: "bold",
           borderRadius: "10px",
         },

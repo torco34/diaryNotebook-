@@ -1,5 +1,6 @@
 "use client";
 
+import { Toaster } from "react-hot-toast";
 import { FaPencilAlt, FaRegTrashAlt } from "react-icons/fa";
 import { ExpenseListProps } from "./ts/BaseType";
 
@@ -10,11 +11,9 @@ export const BaseList = ({
   onEdit,
   onDelete,
 }: ExpenseListProps) => {
-  if (!expenses.id) {
-    console.warn("Gasto sin ID:", expenses); // 👈 Esto ayudará a detectar el problema
-  }
   return (
     <div className="bg-blue-950 min-h-screen text-gray-100 p-4">
+      <Toaster />
       {title && (
         <h2 className="text-4xl font-semibold text-center text-orange-400 mb-8">
           {title}

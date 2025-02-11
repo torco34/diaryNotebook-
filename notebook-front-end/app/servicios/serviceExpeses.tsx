@@ -4,6 +4,7 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
 
 export interface IExpense {
   _id: string | undefined;
+  id: string;
   name: string;
   price: number;
   date: string; // Asegúrate de enviar las fechas en formato ISO
@@ -47,14 +48,14 @@ export const getAllExpenses = async (): Promise<IExpense[]> => {
 // Actualizar un gasto
 export const updateExpense = async (
   id: string,
-  expense: Partial<IExpense>
+  expense: Partial<IExpense> // 'Partial<IExpense>' indica que no todos los campos son necesarios.
 ): Promise<IExpense> => {
   try {
-    const response = await axios.patch<IExpense>(
-      `${API_URL}/expenses/${id}`,
-      expense
+    const response = await axios.put<IExpense>(
+      `${API_URL}/expenses/${id}`, // URL correcta para la API con el ID en la ruta
+      expense // Los datos a actualizar
     );
-    return response.data;
+    return response.data; // Devuelve el gasto actualizado
   } catch (error: unknown) {
     if (axios.isAxiosError(error) && error.response) {
       throw new Error(
@@ -63,14 +64,14 @@ export const updateExpense = async (
         }`
       );
     }
-    throw new Error("Error al eliminar gasto: " + (error as Error).message);
+    throw new Error("Error al actualizar gasto: " + (error as Error).message);
   }
 };
 
 // Eliminar un gasto
 export const deleteExpense = async (id: string): Promise<void> => {
   try {
-    await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/expenses/${id}`);
+    await axios.delete(`${API_URL}/expenses/${id}`);
   } catch (error: unknown) {
     if (axios.isAxiosError(error) && error.response) {
       throw new Error(

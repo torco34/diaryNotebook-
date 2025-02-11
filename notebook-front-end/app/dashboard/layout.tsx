@@ -1,3 +1,5 @@
+import { Toaster } from "react-hot-toast";
+
 interface MenuProps {
   children: React.ReactNode;
   date: React.ReactNode;
@@ -11,6 +13,7 @@ export default function RootLayout({ children, date, superProp }: MenuProps) {
         {children}
         <aside className="sidebar">{date}</aside>
         <section className="analytics">{superProp}</section>
+        <Toaster position="top-center" />
       </main>
     </div>
   );

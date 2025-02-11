@@ -1,7 +1,7 @@
 "use client";
 import { TotalCard } from "@/app/components/shared/BaseTotalCard";
 import { BaseList } from "../../components/shared/BaseList";
-import { useExpenses } from "../../hooks/useExpence";
+import { useExpenses } from "../../hooks/useExpenses";
 
 export default function SuperProp() {
   const { expenses, totalDay, totalMonth, handleDelete, handleEdit } =
