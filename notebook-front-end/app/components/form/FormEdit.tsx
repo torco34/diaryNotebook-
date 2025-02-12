@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from "react";
 
-import { IExpense, useExpenses } from "../../hooks/useExpenses";
+import toast from "react-hot-toast";
+
+import { useExpenses } from "../../hooks/useExpenses";
+import { IExpense } from "../../servicios/serviceExpeses";
 import { BaseModal } from "../shared/BaseModal";
 
 interface EditExpenseProps {
@@ -9,65 +12,109 @@ interface EditExpenseProps {
   onClose: () => void;
 }
 
-const EditExpenseForm: React.FC<EditExpenseProps> = ({
+export const FormEdit: React.FC<EditExpenseProps> = ({
   expenseId,
   isOpen,
   onClose,
 }) => {
-  const { expenses, handleEdit } = useExpenses();
+  const { expenses, loading, error, handleEdit } = useExpenses();
+  const expenseIdString =
+    typeof expenseId === "object" ? expenseId.id : expenseId;
+
+  console.log("ID a buscar:", expenseIdString); // Esto debe imprimir SOLO el ID
+
+  const expense = expenses.find((exp) => exp.id === expenseIdString);
+  console.log("Gasto encontrado:", expense);
   const [updatedExpense, setUpdatedExpense] = useState<IExpense | null>(null);
-
+  console.log(expenses);
+  console.log("Gasto encontrado:", expense);
+  // Cargar el gasto a editar cuando se abre el modal
   useEffect(() => {
-    const expense = expenses.find((exp) => exp._id === expenseId);
     if (expense) {
-      setUpdatedExpense(expense);
+      setUpdatedExpense({ ...expense });
+    } else {
+      console.warn("No se encontró el gasto para editar.");
     }
-  }, [expenseId, expenses]);
-
+  }, [expense]);
+  // Manejo de cambios en el formulario
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    if (updatedExpense) {
-      setUpdatedExpense({
-        ...updatedExpense,
-        [name]: value,
-      });
-    }
+    setUpdatedExpense((prevExpense) => ({
+      ...prevExpense!,
+      [name]: value,
+    }));
   };
 
+  // Enviar los cambios del formulario
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (updatedExpense) {
-      await handleEdit(updatedExpense);
-      onClose(); // Cerrar el modal después de editar
-    }
-  };
 
+    if (!updatedExpense) {
+      console.error("❌ No se encontró un gasto actualizado.");
+      toast.error("No se ha proporcionado un gasto válido.");
+      return;
+    }
+
+    console.log("📤 Enviando actualización:", updatedExpense); // Debug
+
+    await handleEdit(updatedExpense); // Llamar a la función de actualización
+
+    onClose(); // Cerrar modal después de actualizar
+  };
   return (
     <BaseModal isOpen={isOpen} onClose={onClose} title="Editar Gasto">
-      {!updatedExpense ? (
+      {loading ? (
         <div>Cargando...</div>
+      ) : error ? (
+        <div>{error}</div>
+      ) : !expense ? (
+        <div>Gasto no encontrado</div>
       ) : (
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700">
+            <label
+              htmlFor="id"
+              className="block text-sm font-medium text-gray-700"
+            >
+              ID del Gasto (backend)
+            </label>
+            <input
+              type="text"
+              id="id"
+              name="id"
+              value={updatedExpense?.id || ""} // Asegúrate de que estás usando '_id' para mostrar el ID correcto
+              readOnly // Esto hará que el campo sea solo de lectura para que no se pueda editar
+              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200"
+            />
+          </div>
+          <div>
+            <label
+              htmlFor="name"
+              className="block text-sm font-medium text-gray-700"
+            >
               Nombre
             </label>
             <input
               type="text"
+              id="name"
               name="name"
-              value={updatedExpense.name || ""}
+              value={updatedExpense?.name || ""}
               onChange={handleInputChange}
               className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700">
+            <label
+              htmlFor="price"
+              className="block text-sm font-medium text-gray-700"
+            >
               Precio
             </label>
             <input
               type="number"
+              id="price"
               name="price"
-              value={updatedExpense.price || ""}
+              value={updatedExpense?.price || ""}
               onChange={handleInputChange}
               className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200"
             />
@@ -93,4 +140,4 @@ const EditExpenseForm: React.FC<EditExpenseProps> = ({
   );
 };
 
-export default EditExpenseForm;
+

@@ -1,13 +1,13 @@
 "use client";
-
-import FormEdit from "@/app/components/form/FormEdit";
-import { BaseList } from "@/app/components/shared/BaseList";
-import { TotalCard } from "@/app/components/shared/BaseTotalCard";
-import { useExpenses } from "@/app/hooks/useExpenses";
+import { useState } from "react";
 
 import { PlusIcon } from "@heroicons/react/24/solid";
 import Link from "next/link";
-import { useState } from "react";
+
+import { FormEdit } from "@/app/components/form/FormEdit";
+import { BaseList } from "@/app/components/shared/BaseList";
+import { TotalCard } from "@/app/components/shared/BaseTotalCard";
+import { useExpenses } from "@/app/hooks/useExpenses";
 
 export default function DailyExpenses() {
   const { expenses, totalDay, totalMonth, handleDelete } = useExpenses();
@@ -17,14 +17,14 @@ export default function DailyExpenses() {
   );
 
   const openEditModal = (expenseId: string) => {
-    setSelectedExpenseId(expenseId);
+    console.log("Abriendo modal para editar gasto con ID:", expenseId);
+    setSelectedExpenseId(expenseId); // Solo guardar el ID, no el objeto completo
     setIsModalOpen(true);
   };
 
   return (
     <main className="grid min-h-screen justify-items-center p-4 bg-blue-950">
       <div className="max-w-7xl w-full mx-auto p-6">
-        {/* Tarjetas de totales */}
         <div className="flex justify-between items-center mb-8">
           <TotalCard
             title="Suma total del día"
@@ -38,24 +38,27 @@ export default function DailyExpenses() {
           />
         </div>
 
-        {/* Botón para agregar gasto */}
         <Link href="/dashboard">
           <button className="flex items-center mb-4 px-6 py-2 bg-blue-950 text-orange-400 rounded-md hover:bg-blue-900 hover:text-yellow-400 transition-all duration-200">
             <PlusIcon className="w-5 h-5 mr-2" />
             Agregar Gasto
           </button>
         </Link>
-
-        {/* Lista de gastos */}
+        {/* 
         <BaseList
           expenses={expenses}
           title="Lista de Gastos"
           showDate={true}
           onEdit={openEditModal}
           onDelete={handleDelete}
+        /> */}
+        <BaseList
+          expenses={expenses}
+          title="Lista de Gastos"
+          showDate={true}
+          onEdit={(expenseId) => openEditModal(expenseId)}
+          onDelete={handleDelete}
         />
-
-        {/* Modal de edición */}
         {selectedExpenseId && (
           <FormEdit
             expenseId={selectedExpenseId}

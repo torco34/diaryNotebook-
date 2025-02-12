@@ -18,11 +18,10 @@ export function useExpenses() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Función para calcular la suma total del día y del mes
+  // Función para calcular los totales
   const calculateTotals = (expenses: IExpense[]) => {
     let totalDay = 0;
     let totalMonth = 0;
-
     const today = new Date().toISOString().split("T")[0];
     const currentMonth = new Date().getMonth();
     const currentYear = new Date().getFullYear();
@@ -55,7 +54,6 @@ export function useExpenses() {
         setFilteredExpenses(fetchedExpenses);
         calculateTotals(fetchedExpenses);
       } catch (error) {
-        console.error("Error al obtener los gastos:", error);
         setError("Hubo un error al obtener los gastos.");
         toast.error("❌ Hubo un error al obtener los gastos.");
       } finally {
@@ -65,19 +63,6 @@ export function useExpenses() {
 
     fetchExpenses();
   }, []);
-
-  // Función para manejar la búsqueda
-  const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const searchValue = event.target.value.toLowerCase();
-    setSearchTerm(searchValue);
-
-    const filtered = expenses.filter(
-      (expense) =>
-        expense.name.toLowerCase().includes(searchValue) ||
-        expense.dayOfWeek.toLowerCase().includes(searchValue)
-    );
-    setFilteredExpenses(filtered);
-  };
 
   // Función para eliminar un gasto
   const handleDelete = async (id: string | undefined) => {
@@ -93,39 +78,40 @@ export function useExpenses() {
 
     try {
       await deleteExpense(id);
-      const updatedExpenses = expenses.filter((expense) => expense.id !== id);
+      const updatedExpenses = expenses.filter((expense) => expense._id !== id);
       setExpenses(updatedExpenses);
       setFilteredExpenses(updatedExpenses);
       calculateTotals(updatedExpenses);
 
       toast.success("✅ Gasto eliminado con éxito.");
     } catch (error) {
-      console.error("Error al eliminar el gasto:", error);
       toast.error("⚠️ Hubo un error al eliminar el gasto.");
     }
   };
 
   // Función para editar un gasto
   const handleEdit = async (updatedExpense: IExpense) => {
-    if (!updatedExpense.id) {
+    if (!updatedExpense) {
+      toast.error("No se ha proporcionado un gasto para editar.");
+      return;
+    }
+    if (!updatedExpense._id) {
+      // Usamos '_id' en lugar de 'id' si tu backend usa '_id'
       toast.error("El gasto no tiene un ID válido.");
       return;
     }
 
     try {
-      const response = await updateExpense(updatedExpense.id, updatedExpense);
-
+      const response = await updateExpense(updatedExpense.id, updatedExpense); // Aquí usamos '_id'
       const updatedExpenses = expenses.map((expense) =>
         expense.id === updatedExpense.id ? response : expense
       );
-
       setExpenses(updatedExpenses);
       setFilteredExpenses(updatedExpenses);
       calculateTotals(updatedExpenses);
 
       toast.success("✅ Gasto actualizado con éxito.");
-    } catch (error) {
-      console.error("Error al editar el gasto:", error);
+    } catch {
       toast.error("⚠️ Hubo un error al editar el gasto.");
     }
   };
@@ -138,7 +124,6 @@ export function useExpenses() {
     searchTerm,
     loading,
     error,
-    handleSearch,
     handleDelete,
     handleEdit,
   };
