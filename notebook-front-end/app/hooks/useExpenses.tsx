@@ -95,23 +95,35 @@ export function useExpenses() {
       toast.error("No se ha proporcionado un gasto para editar.");
       return;
     }
-    if (!updatedExpense._id) {
-      // Usamos '_id' en lugar de 'id' si tu backend usa '_id'
+
+    if (!updatedExpense.id) {
       toast.error("El gasto no tiene un ID válido.");
       return;
     }
 
     try {
-      const response = await updateExpense(updatedExpense.id, updatedExpense); // Aquí usamos '_id'
+      const response = await updateExpense(updatedExpense.id, updatedExpense);
+      console.log("Gasto actualizado:", response);
+
+      // Validar si expenses está definido antes de usar map
+      if (!expenses || !Array.isArray(expenses)) {
+        console.error("❌ Error: expenses es undefined o no es un array.");
+        toast.error("Error al actualizar los gastos.");
+        return;
+      }
+
+      // Actualizar la lista de gastos
       const updatedExpenses = expenses.map((expense) =>
         expense.id === updatedExpense.id ? response : expense
       );
+
       setExpenses(updatedExpenses);
       setFilteredExpenses(updatedExpenses);
       calculateTotals(updatedExpenses);
 
       toast.success("✅ Gasto actualizado con éxito.");
-    } catch {
+    } catch (error) {
+      console.error("❌ Error en la actualización:", error);
       toast.error("⚠️ Hubo un error al editar el gasto.");
     }
   };

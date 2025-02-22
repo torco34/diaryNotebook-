@@ -48,14 +48,22 @@ export const getAllExpenses = async (): Promise<IExpense[]> => {
 // Actualizar un gasto
 export const updateExpense = async (
   id: string,
-  expense: Partial<IExpense> // 'Partial<IExpense>' indica que no todos los campos son necesarios.
+  expense: Partial<IExpense>
 ): Promise<IExpense> => {
+  if (!id) throw new Error("❌ El ID no es válido.");
+
+  // Eliminar el campo 'id' antes de enviar la solicitud
+  const { id: _, ...cleanExpense } = expense;
+
+  console.log("📝 ID enviado al backend:", id);
+  console.log("📦 Datos enviados al backend (sin ID):", cleanExpense);
+
   try {
     const response = await axios.put<IExpense>(
-      `${API_URL}/expenses/${id}`, // URL correcta para la API con el ID en la ruta
-      expense // Los datos a actualizar
+      `${API_URL}/expenses/${id}`,
+      cleanExpense
     );
-    return response.data; // Devuelve el gasto actualizado
+    return response.data;
   } catch (error: unknown) {
     if (axios.isAxiosError(error) && error.response) {
       throw new Error(
@@ -67,6 +75,24 @@ export const updateExpense = async (
     throw new Error("Error al actualizar gasto: " + (error as Error).message);
   }
 };
+
+// export const updateExpense = async (id: string, updatedExpense: IExpense) => {
+//   console.log("📝 ID enviado al backend:", id);
+//   console.log("📦 Datos enviados al backend:", JSON.stringify(updatedExpense, null, 2));
+
+//   try {
+//     const response = await axios.put(`http://localhost:4000/api/expenses/${id}`, updatedExpense, {
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//     });
+
+//     return response.data;
+//   } catch (error) {
+//     console.error("❌ Error en la petición de actualización:", error);
+//     throw error;
+//   }
+// };
 
 // Eliminar un gasto
 export const deleteExpense = async (id: string): Promise<void> => {

@@ -18,15 +18,16 @@ export const FormEdit: React.FC<EditExpenseProps> = ({
   onClose,
 }) => {
   const { expenses, loading, error, handleEdit } = useExpenses();
-  const expenseIdString =
-    typeof expenseId === "object" ? expenseId.id : expenseId;
+  const expenseIdString = (expenseId as any).id ?? expenseId;
+  console.log("✅ ID limpio:", expenseIdString);
+  // typeof expenseId === "object" ? expenseId.id : expenseId;
 
-  console.log("ID a buscar:", expenseIdString); // Esto debe imprimir SOLO el ID
+  console.log("🔑 ID correcto:", expenseIdString);
 
   const expense = expenses.find((exp) => exp.id === expenseIdString);
   console.log("Gasto encontrado:", expense);
   const [updatedExpense, setUpdatedExpense] = useState<IExpense | null>(null);
-  console.log(expenses);
+  console.log(expenses, "expense");
   console.log("Gasto encontrado:", expense);
   // Cargar el gasto a editar cuando se abre el modal
   useEffect(() => {
@@ -139,5 +140,3 @@ export const FormEdit: React.FC<EditExpenseProps> = ({
     </BaseModal>
   );
 };
-
-
