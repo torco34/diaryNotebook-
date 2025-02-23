@@ -18,9 +18,9 @@ export const FormEdit: React.FC<EditExpenseProps> = ({
   onClose,
 }) => {
   const { expenses, loading, error, handleEdit } = useExpenses();
-  const expenseIdString = (expenseId as any).id ?? expenseId;
+  const expenseIdString = expenseId;
   console.log("✅ ID limpio:", expenseIdString);
-  // typeof expenseId === "object" ? expenseId.id : expenseId;
+
 
   console.log("🔑 ID correcto:", expenseIdString);
 
@@ -72,22 +72,7 @@ export const FormEdit: React.FC<EditExpenseProps> = ({
         <div>Gasto no encontrado</div>
       ) : (
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div>
-            <label
-              htmlFor="id"
-              className="block text-sm font-medium text-gray-700"
-            >
-              ID del Gasto (backend)
-            </label>
-            <input
-              type="text"
-              id="id"
-              name="id"
-              value={updatedExpense?.id || ""} // Asegúrate de que estás usando '_id' para mostrar el ID correcto
-              readOnly // Esto hará que el campo sea solo de lectura para que no se pueda editar
-              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200"
-            />
-          </div>
+          <div></div>
           <div>
             <label
               htmlFor="name"
@@ -101,7 +86,7 @@ export const FormEdit: React.FC<EditExpenseProps> = ({
               name="name"
               value={updatedExpense?.name || ""}
               onChange={handleInputChange}
-              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200"
+              className="mt-1 block w-full text-gray-900 border-gray-700 rounded-md shadow-sm focus:ring focus:ring-blue-200"
             />
           </div>
           <div>
@@ -117,7 +102,7 @@ export const FormEdit: React.FC<EditExpenseProps> = ({
               name="price"
               value={updatedExpense?.price || ""}
               onChange={handleInputChange}
-              className="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring focus:ring-blue-200"
+              className="mt-1 block w-full text-gray-900 border-gray-700 rounded-md shadow-sm focus:ring focus:ring-blue-200"
             />
           </div>
           <div className="flex justify-end space-x-2">

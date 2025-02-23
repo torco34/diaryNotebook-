@@ -1,26 +1,17 @@
 "use client";
-import { useState } from "react";
-
 import { PlusIcon } from "@heroicons/react/24/solid";
 import Link from "next/link";
 
 import { FormEdit } from "@/app/components/form/FormEdit";
 import { BaseList } from "@/app/components/shared/BaseList";
 import { TotalCard } from "@/app/components/shared/BaseTotalCard";
+import { useEditModal } from "@/app/hooks/useEditModal";
 import { useExpenses } from "@/app/hooks/useExpenses";
 
 export default function DailyExpenses() {
   const { expenses, totalDay, totalMonth, handleDelete } = useExpenses();
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [selectedExpenseId, setSelectedExpenseId] = useState<string | null>(
-    null
-  );
-
-  const openEditModal = (expenseId: string) => {
-    console.log("Abriendo modal para editar gasto con ID:", expenseId);
-    setSelectedExpenseId(expenseId); // Solo guardar el ID, no el objeto completo
-    setIsModalOpen(true);
-  };
+  const { isModalOpen, selectedExpenseId, openModal, closeModal } =
+    useEditModal();
 
   return (
     <main className="grid min-h-screen justify-items-center p-4 bg-blue-950">
@@ -49,14 +40,15 @@ export default function DailyExpenses() {
           expenses={expenses}
           title="Lista de Gastos"
           showDate={true}
-          onEdit={(expenseId) => openEditModal(expenseId)}
+          onEdit={(expense) => expense.id && openModal(expense.id)}
           onDelete={handleDelete}
         />
+
         {selectedExpenseId && (
           <FormEdit
             expenseId={selectedExpenseId}
             isOpen={isModalOpen}
-            onClose={() => setIsModalOpen(false)}
+            onClose={closeModal}
           />
         )}
       </div>

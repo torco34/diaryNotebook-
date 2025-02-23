@@ -53,7 +53,7 @@ export function useExpenses() {
         setExpenses(fetchedExpenses);
         setFilteredExpenses(fetchedExpenses);
         calculateTotals(fetchedExpenses);
-      } catch (error) {
+      } catch {
         setError("Hubo un error al obtener los gastos.");
         toast.error("❌ Hubo un error al obtener los gastos.");
       } finally {
