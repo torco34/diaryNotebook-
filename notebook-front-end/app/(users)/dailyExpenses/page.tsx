@@ -44,14 +44,7 @@ export default function DailyExpenses() {
             Agregar Gasto
           </button>
         </Link>
-        {/* 
-        <BaseList
-          expenses={expenses}
-          title="Lista de Gastos"
-          showDate={true}
-          onEdit={openEditModal}
-          onDelete={handleDelete}
-        /> */}
+
         <BaseList
           expenses={expenses}
           title="Lista de Gastos"

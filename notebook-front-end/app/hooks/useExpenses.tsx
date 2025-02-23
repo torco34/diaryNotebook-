@@ -101,16 +101,22 @@ export function useExpenses() {
       return;
     }
 
-    try {
-      const response = await updateExpense(updatedExpense.id, updatedExpense);
-      console.log("Gasto actualizado:", response);
+    // Validar el precio como número
+    const price = Number(updatedExpense.price);
+    if (isNaN(price) || price <= 0) {
+      console.error("❌ Error: El valor de 'price' no es un número válido.");
+      toast.error("⚠️ El valor del gasto debe ser un número positivo.");
+      return;
+    }
 
-      // Validar si expenses está definido antes de usar map
-      if (!expenses || !Array.isArray(expenses)) {
-        console.error("❌ Error: expenses es undefined o no es un array.");
-        toast.error("Error al actualizar los gastos.");
-        return;
-      }
+    try {
+      // Llamada única a la API
+      const response = await updateExpense(updatedExpense.id, {
+        ...updatedExpense,
+        price,
+      });
+
+      console.log("✅ Gasto actualizado:", response);
 
       // Actualizar la lista de gastos
       const updatedExpenses = expenses.map((expense) =>
@@ -127,6 +133,7 @@ export function useExpenses() {
       toast.error("⚠️ Hubo un error al editar el gasto.");
     }
   };
+  
 
   return {
     expenses,
