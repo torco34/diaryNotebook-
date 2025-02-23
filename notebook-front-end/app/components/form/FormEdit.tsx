@@ -18,32 +18,19 @@ export const FormEdit: React.FC<EditExpenseProps> = ({
   onClose,
 }) => {
   const { expenses, loading, error, handleEdit } = useExpenses();
-  const expenseIdString = expenseId;
-  console.log("✅ ID limpio:", expenseIdString);
-
-
-  console.log("🔑 ID correcto:", expenseIdString);
-
-  const expense = expenses.find((exp) => exp.id === expenseIdString);
-  console.log("Gasto encontrado:", expense);
   const [updatedExpense, setUpdatedExpense] = useState<IExpense | null>(null);
-  console.log(expenses, "expense");
-  console.log("Gasto encontrado:", expense);
+
   // Cargar el gasto a editar cuando se abre el modal
   useEffect(() => {
-    if (expense) {
-      setUpdatedExpense({ ...expense });
-    } else {
-      console.warn("No se encontró el gasto para editar.");
+    if (isOpen) {
+      const expense = expenses.find((exp) => exp.id === expenseId);
+      setUpdatedExpense(expense ?? null);
     }
-  }, [expense]);
-  // Manejo de cambios en el formulario
+  }, [expenseId, isOpen, expenses]);
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setUpdatedExpense((prevExpense) => ({
-      ...prevExpense!,
-      [name]: value,
-    }));
+    setUpdatedExpense((prev) => (prev ? { ...prev, [name]: value } : null));
   };
 
   // Enviar los cambios del formulario
@@ -51,32 +38,33 @@ export const FormEdit: React.FC<EditExpenseProps> = ({
     e.preventDefault();
 
     if (!updatedExpense) {
-      console.error("❌ No se encontró un gasto actualizado.");
-      toast.error("No se ha proporcionado un gasto válido.");
+      toast.error("❌ No se encontró un gasto válido para actualizar.");
       return;
     }
 
-    console.log("📤 Enviando actualización:", updatedExpense); // Debug
-
-    await handleEdit(updatedExpense); // Llamar a la función de actualización
-
-    onClose(); // Cerrar modal después de actualizar
+    try {
+      await handleEdit(updatedExpense);
+      toast.success("✅ Gasto actualizado con éxito. por favor");
+      onClose();
+    } catch {
+      toast.error("⚠️ Hubo un error al actualizar el gasto.");
+    }
   };
+
   return (
     <BaseModal isOpen={isOpen} onClose={onClose} title="Editar Gasto">
       {loading ? (
-        <div>Cargando...</div>
+        <p>Cargando...</p>
       ) : error ? (
-        <div>{error}</div>
-      ) : !expense ? (
-        <div>Gasto no encontrado</div>
+        <p>{error}</p>
+      ) : !updatedExpense ? (
+        <p>Gasto no encontrado</p>
       ) : (
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div></div>
           <div>
             <label
               htmlFor="name"
-              className="block text-sm font-medium text-gray-700"
+              className="block text-sm font-medium text-gray-100"
             >
               Nombre
             </label>
@@ -84,15 +72,17 @@ export const FormEdit: React.FC<EditExpenseProps> = ({
               type="text"
               id="name"
               name="name"
-              value={updatedExpense?.name || ""}
+              value={updatedExpense.name}
               onChange={handleInputChange}
-              className="mt-1 block w-full text-gray-900 border-gray-700 rounded-md shadow-sm focus:ring focus:ring-blue-200"
+              className="mt-1 block w-full p-2 border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+              required
             />
           </div>
+
           <div>
             <label
               htmlFor="price"
-              className="block text-sm font-medium text-gray-700"
+              className="block text-sm font-medium text-gray-100"
             >
               Precio
             </label>
@@ -100,22 +90,25 @@ export const FormEdit: React.FC<EditExpenseProps> = ({
               type="number"
               id="price"
               name="price"
-              value={updatedExpense?.price || ""}
+              value={updatedExpense.price}
               onChange={handleInputChange}
-              className="mt-1 block w-full text-gray-900 border-gray-700 rounded-md shadow-sm focus:ring focus:ring-blue-200"
+              className="mt-1 block w-full p-2 border-gray-100 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+              required
+              min={0}
             />
           </div>
+
           <div className="flex justify-end space-x-2">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 bg-gray-300 text-gray-700 rounded-md"
+              className="px-4 py-2 bg-gray-300 text-gray-600 rounded-md"
             >
               Cancelar
             </button>
             <button
               type="submit"
-              className="px-4 py-2 bg-blue-600 text-white rounded-md"
+              className="px-4 py-2 bg-yellow-700 text-white rounded-md"
             >
               Guardar
             </button>

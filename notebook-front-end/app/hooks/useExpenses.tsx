@@ -84,7 +84,7 @@ export function useExpenses() {
       calculateTotals(updatedExpenses);
 
       toast.success("✅ Gasto eliminado con éxito.");
-    } catch (error) {
+    } catch {
       toast.error("⚠️ Hubo un error al eliminar el gasto.");
     }
   };
@@ -116,8 +116,6 @@ export function useExpenses() {
         price,
       });
 
-      console.log("✅ Gasto actualizado:", response);
-
       // Actualizar la lista de gastos
       const updatedExpenses = expenses.map((expense) =>
         expense.id === updatedExpense.id ? response : expense
@@ -126,8 +124,6 @@ export function useExpenses() {
       setExpenses(updatedExpenses);
       setFilteredExpenses(updatedExpenses);
       calculateTotals(updatedExpenses);
-
-      toast.success("✅ Gasto actualizado con éxito.");
     } catch (error) {
       console.error("❌ Error en la actualización:", error);
       toast.error("⚠️ Hubo un error al editar el gasto.");

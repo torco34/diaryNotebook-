@@ -11,7 +11,7 @@ export default function SuperProp() {
     useEditModal();
 
   return (
-    <div className="bg-blue-950 min-h-screen text-gray-100 p-10">
+    <div className="bg-blue-950 min-h-screen text-gray-900 p-10">
       <div className="flex justify-between items-center mb-8">
         <TotalCard
           title="Suma total del día"
