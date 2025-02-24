@@ -17,7 +17,7 @@ export default function BaseImg({
       role="button"
       tabIndex={0}
       onKeyDown={(e) => e.key === "Enter" && onClick?.()}
-      className="inline-block bg-gray-100 rounded"
+      className="inline-block bg-blue-100 rounded"
       style={{ cursor: "pointer" }}
     >
       <Image

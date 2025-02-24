@@ -26,7 +26,7 @@ export default function ProfileCard({
   onClick,
 }: ProfileCardProps) {
   return (
-    <div className="text-center p-6 bg-slate-100 shadow-lg rounded-lg">
+    <div className="text-center p-6 bg-blue-100 shadow-lg rounded-lg">
       <BaseImg
         src={src}
         alt={alt}
